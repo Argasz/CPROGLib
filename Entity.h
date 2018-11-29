@@ -6,19 +6,18 @@
 #define CPROGLIB_ENTITY_H
 
 
-#include <vector>
+#include <SDL_render.h>
 #include "Sprite.h"
 
 class Entity {
-private:
-    int posx;
-    int posy;
-    Sprite* sprite;
-    std::vector<Entity> entities;
 public:
-    Entity(Sprite* sprite, int posx, int posy);
-    void tick();
-    void draw(Window* win);
+    virtual void tick() = 0;
+    virtual void draw(SDL_Renderer* rend) {};
+    virtual ~Entity() = default;
+    Entity(const Entity& obj) = delete;
+    Entity& operator=(const Entity&) = delete;
+protected:
+    Entity() = default;
 };
 
 

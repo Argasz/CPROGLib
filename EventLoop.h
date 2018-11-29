@@ -15,7 +15,7 @@ class EventLoop {
 private:
     SDL_Event event;
     int fps;
-    std::vector<Entity> entities;
+    std::vector<Entity*> entities;
     Window* win;
     bool running;
 
@@ -24,10 +24,11 @@ private:
 
     }
 public:
-    EventLoop(int fps, std::vector<Entity> entities, Window* win);
+    EventLoop(int fps, std::vector<Entity*> entities, Window* win);
     ~EventLoop();
 
     void start();
+    void stop();
 };
 
 

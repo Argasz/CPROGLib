@@ -24,8 +24,7 @@ public:
     void close();
     void render();
     void clear();
-
-    friend void Sprite::draw(Window* win, int x, int y);
+    SDL_Renderer* getRenderer();
 
 };
 

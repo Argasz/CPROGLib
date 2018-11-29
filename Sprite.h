@@ -15,8 +15,9 @@ private:
     std::string imagePath;
     SDL_Surface* surface;
 public:
-    Sprite(std::string& imagePath);
-    void draw(Window* win, int x, int y);
+    Sprite(const std::string& imagePath);
+    virtual void draw(SDL_Renderer* rend, const SDL_Rect rect);
+    ~Sprite();
 };
 
 

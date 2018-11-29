@@ -15,12 +15,14 @@ Window::Window(std::string& title, int w, int h, int posx, int posy){
 
     this->win = SDL_CreateWindow(title.c_str(),posx,posy,w,h,SDL_WINDOW_SHOWN);
     if(win == NULL){
-        printf("Could not create window, SDL Error:%s", SDL_GetError());
+        printf("Could not create window, SDL Error: %s", SDL_GetError());
+        throw std::runtime_error("Error creating window");
     }
     this->rend = SDL_CreateRenderer(win,-1,SDL_RENDERER_ACCELERATED);
 
     if(rend == NULL) {
-        printf( "Could not create renderer, SDL Error: %s\n", SDL_GetError() );
+        printf( "Could not create renderer, SDL Error: %s", SDL_GetError());
+        throw std::runtime_error("Error creating renderer");
     }
 
     SDL_SetRenderDrawColor( rend, 0xFF, 0xFF, 0xFF, 0xFF );
@@ -44,3 +46,8 @@ void Window::render(){
 void Window::clear() {
     SDL_RenderClear(rend);
 }
+
+SDL_Renderer* Window::getRenderer(){
+    return rend;
+}
+

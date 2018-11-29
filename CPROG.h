@@ -4,12 +4,14 @@
 #include "EventLoop.h"
 #include "Sprite.h"
 #include "Window.h"
-#include "SDL.h"
-#include "SDL_image.h"
-#include "SDL_ttf.h"
-#include "SDL_mixer.h"
+#include "SpriteEntity.h"
+#include <SDL.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
+#include <SDL_mixer.h>
 
-extern void CPROG_init();
 
+void CPROG_init();
+void CPROG_quit();
 
 #endif
