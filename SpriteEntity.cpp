@@ -10,7 +10,12 @@ SpriteEntity::SpriteEntity(const std::string& imagePath, int x, int y, int w, in
 }
 
 void SpriteEntity::tick() {
-    rect.x+=1;
+    move(1 ,0 );
+}
+
+void SpriteEntity::move(int dx, int dy){
+    rect.x += dx;
+    rect.y += dy;
 }
 
 SpriteEntity::~SpriteEntity() {

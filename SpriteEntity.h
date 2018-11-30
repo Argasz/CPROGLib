@@ -14,11 +14,12 @@ private:
     SDL_Rect rect;
 public:
     SpriteEntity(const std::string& imagePath, int x, int y, int w, int h);
-    void draw(SDL_Renderer* rend){
+    virtual void draw(SDL_Renderer* rend){
         sprite->draw(rend, rect);
     };
-    void tick();
-    ~SpriteEntity();
+    virtual void tick();
+    virtual void move(int dx, int dy);
+    virtual ~SpriteEntity();
 
 };
 
