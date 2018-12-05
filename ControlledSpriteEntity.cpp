@@ -5,12 +5,13 @@
 #include "ControlledSpriteEntity.h"
 
 
-void ControlledSpriteEntity::addListener(void (*listen)(SDL_Event, ControlledSpriteEntity) ) {
-    listeners.push_back(listen);
+void ControlledSpriteEntity::addListener(const SDL_EventType& e, const InputListener& ipl) {
+    listeners.insert(e, ipl);
 }
 
 void ControlledSpriteEntity::tick(SDL_Event e) {
-    for(auto f : listeners){
-        f(e, this);
-    }//TODO: RETHINK
+    InputListener* i = listeners[e.type];
+    if(i != nullptr){
+        i->react(e);
+    }
 }

@@ -10,6 +10,7 @@
 #include <vector>
 #include "Sprite.h"
 #include "Entity.h"
+#include "Window.h"
 
 class EventLoop {
 private:
@@ -24,7 +25,7 @@ private:
 
     }
 public:
-    EventLoop(int fps, std::vector<Entity*> entities, Window* win);
+    EventLoop(int fps, Window* win);
     ~EventLoop();
 
     void start();

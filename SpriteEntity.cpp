@@ -15,7 +15,7 @@ void SpriteEntity::tick() {
 
 void SpriteEntity::move(int dx, int dy){
     rect.x += dx;
-    rect.y += dy;
+    rect.y += dy; //TODO: STUB
 }
 
 SpriteEntity::~SpriteEntity() {

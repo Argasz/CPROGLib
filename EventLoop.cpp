@@ -4,12 +4,10 @@
 
 #include "EventLoop.h"
 #include "SDL.h"
-#include "Entity.h"
-#include "Window.h"
 
 
-EventLoop::EventLoop(int fps, std::vector <Entity*> entities, Window* win){
-    this->entities = entities;
+
+EventLoop::EventLoop(int fps, Window* win){
     this->fps = fps;
     this->win = win;
     running = false;

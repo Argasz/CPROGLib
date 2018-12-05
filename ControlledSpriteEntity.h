@@ -7,14 +7,16 @@
 
 
 #include "SpriteEntity.h"
+#include "InputListener.h"
 #include <SDL.h>
-#include <vector>
+#include <unordered_map>
+
 
 class ControlledSpriteEntity : public SpriteEntity {
 private:
-    std::vector<void()> listeners;
+    std::unordered_map<SDL_EventType, InputListener> listeners;
 public:
-    void addListener();
+    void addListener(const SDL_EventType& e, const InputListener& ipl);
     void tick(SDL_Event e);
 };
 

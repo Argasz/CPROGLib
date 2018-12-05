@@ -36,7 +36,6 @@ Window::~Window(){
 
 void Window::close(){
     SDL_DestroyWindow(win);
-    win = nullptr;
 }
 
 void Window::render(){
