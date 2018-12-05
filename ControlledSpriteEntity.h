@@ -14,10 +14,13 @@
 
 class ControlledSpriteEntity : public SpriteEntity {
 private:
-    std::unordered_map<SDL_EventType, InputListener> listeners;
+    std::unordered_map<Uint32 , InputListener*> listeners;
 public:
-    void addListener(const SDL_EventType& e, const InputListener& ipl);
+    ControlledSpriteEntity(const std::string& imagePath, int x, int y, int w, int h);
+    void addListener(const Uint32 e,InputListener* ipl);
     void tick(SDL_Event e);
+    using SpriteEntity::draw;
+
 };
 
 

@@ -17,8 +17,7 @@ public:
     InputListener& operator=(const InputListener&) = delete;
 protected:
     InputListener(Entity* e);
-private:
-    Entity* e;
+    Entity* entity;
 };
 
 

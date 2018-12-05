@@ -27,18 +27,31 @@ void EventLoop::start() {
 void EventLoop::stop(){
     running = false;
 }
+void EventLoop::addEntity(Entity *e) {
+    entities.push_back(e); //TODO:Changes during iteration
+}
 
 int EventLoop::mainLoop() {
     const int tickInterval = 1000/fps;
     Uint32 nextTick;
     int delay;
-    SDL_Event e;
+    SDL_Event ev;
     while(running){
         nextTick = SDL_GetTicks() + tickInterval;
+
+        while( SDL_PollEvent( &ev ) != 0 )
+        {
+            if( ev.type == SDL_QUIT ) {
+                stop();
+            }
+            for(auto e : entities){
+                e->tick(ev);
+            }
+        }
         win->clear();
-        for(auto e : entities){
+        for(auto e: entities){
+            e->move();
             e->draw(win->getRenderer());
-            e->tick();
         }
 
         win->render();
@@ -46,12 +59,7 @@ int EventLoop::mainLoop() {
         if(delay > 0){
             SDL_Delay(delay);
         }
-        while( SDL_PollEvent( &e ) != 0 )
-        {
-            if( e.type == SDL_QUIT ) {
-                stop();
-            }
-        }
+
 
     }
 

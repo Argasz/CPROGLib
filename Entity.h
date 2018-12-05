@@ -11,8 +11,10 @@
 
 class Entity {
 public:
-    virtual void tick() = 0;
+    virtual void tick(SDL_Event ev) = 0;
     virtual void draw(SDL_Renderer* rend) {};
+    virtual void move(){};
+    virtual void addVel(int dx, int dy) {};
     virtual ~Entity() = default;
     Entity(const Entity& obj) = delete;
     Entity& operator=(const Entity&) = delete;

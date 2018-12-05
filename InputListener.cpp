@@ -5,9 +5,9 @@
 #include "InputListener.h"
 
 InputListener::InputListener(Entity* e) {
-    this->e = e;
+    this->entity = e;
 }
 
 InputListener::~InputListener() {
-    e = nullptr;
+    entity = nullptr;
 }

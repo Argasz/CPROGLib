@@ -27,7 +27,7 @@ private:
 public:
     EventLoop(int fps, Window* win);
     ~EventLoop();
-
+    void addEntity(Entity* e);
     void start();
     void stop();
 };
