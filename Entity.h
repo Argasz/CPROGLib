@@ -12,7 +12,7 @@
 class Entity {
 public:
     virtual void tick(SDL_Event ev) = 0;
-    virtual void draw(SDL_Renderer* rend) {};
+    virtual void draw(SDL_Renderer* rend) = 0;
     virtual void move(){};
     virtual void addVel(int dx, int dy) {};
     virtual ~Entity() = default;

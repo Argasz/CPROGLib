@@ -9,14 +9,25 @@ ControlledSpriteEntity::ControlledSpriteEntity(const std::string &imagePath, int
 :SpriteEntity(imagePath, x, y, w, h) {
 }
 
-void ControlledSpriteEntity::addListener(const Uint32 e, InputListener* ipl) {
-    std::pair<Uint32, InputListener*> p = std::make_pair(e, ipl);
-    listeners.insert(p);
+void ControlledSpriteEntity::addKeyDownListener(const SDL_Keycode k, const std::function<void(Entity*)>& lambda) {
+    std::pair<Uint32 , std::function<void(Entity*)>> p = std::make_pair(k, lambda);
+    keyDownListeners.insert(p);
+}
+void ControlledSpriteEntity::addKeyUpListener(const SDL_Keycode k, const std::function<void(Entity*)>& lambda) {
+    std::pair<Uint32 , std::function<void(Entity*)>> p = std::make_pair(k, lambda);
+    keyUpListeners.insert(p);
 }
 
 void ControlledSpriteEntity::tick(SDL_Event e) {
-    InputListener* i = listeners[e.type];
-    if(i != nullptr){
-        i->react(e);
+    if(e.key.repeat == 0){
+        std::function<void(Entity*)> i;
+        if(e.type == SDL_KEYDOWN)
+            i = keyDownListeners[e.key.keysym.sym];
+        else if(e.type == SDL_KEYUP)
+            i = keyUpListeners[e.key.keysym.sym];
+
+        if(i != nullptr){
+            i(this);
+        }
     }
 }
