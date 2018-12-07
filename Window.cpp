@@ -28,7 +28,6 @@ Window::Window(std::string& title, int w, int h, int posx, int posy){
     SDL_SetRenderDrawColor( rend, 0xFF, 0xFF, 0xFF, 0xFF );
 }
 
-//TODO: Drawcolor
 
 Window::~Window(){
     close();

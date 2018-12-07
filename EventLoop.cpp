@@ -13,6 +13,7 @@ EventLoop::EventLoop(int fps, Window* win){
     running = false;
 }
 
+
 EventLoop::~EventLoop() {
     for(auto e : entities){
         delete e;

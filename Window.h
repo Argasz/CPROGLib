@@ -24,6 +24,12 @@ public:
     void close();
     void render();
     void clear();
+    int getHeight(){
+        return height;
+    }
+    int getWidth(){
+        return width;
+    }
     SDL_Renderer* getRenderer();
 
 };

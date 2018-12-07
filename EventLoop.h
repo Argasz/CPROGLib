@@ -19,7 +19,6 @@ private:
     std::vector<Entity*> entities;
     Window* win;
     bool running;
-
     int mainLoop();
     void tickEntities(){
 
