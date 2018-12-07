@@ -45,8 +45,17 @@ int EventLoop::mainLoop() {
             if( ev.type == SDL_QUIT ) {
                 stop();
             }
+
             for(auto e : entities){
                 e->tick(ev);
+            }
+        }
+        for(int i = 0; i < entities.size(); i++){
+            for(int k = i+1; k < entities.size();k++){
+                if(entities[i]->isColliding(*entities[k])){
+                    entities[i]->addVel(-5,-5);
+                    entities[k]->addVel(5, 5);
+                }
             }
         }
         win->clear();

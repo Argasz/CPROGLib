@@ -19,10 +19,12 @@ public:
     virtual void draw(SDL_Renderer* rend){
         sprite->draw(rend, rect);
     };
+    const SDL_Rect& getRect() const;
     virtual void tick(SDL_Event ev);
     virtual void move();
     virtual ~SpriteEntity();
     virtual void addVel(int dx, int dy);
+    virtual bool isColliding(const Entity& se) const;
     void setMaxVel(int vel){
         maxVel = vel;
     }

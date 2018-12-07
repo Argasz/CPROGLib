@@ -32,6 +32,17 @@ void SpriteEntity::move(){
     rect.y += yvel;
 }
 
+const SDL_Rect& SpriteEntity::getRect() const{
+    return rect;
+}
+
+bool SpriteEntity::isColliding(const Entity &se) const{
+    SDL_Rect other = se.getRect();
+    bool ycoll = (this->rect.x <= (other.x + other.w) && (other.x <= (this->rect.x + this->rect.w)));
+    bool xcoll = (this->rect.y <= (other.y + other.h) && (other.y <= (this->rect.y + this->rect.h)));
+    return ycoll && xcoll;
+}
+
 SpriteEntity::~SpriteEntity() {
     delete sprite;
 }
