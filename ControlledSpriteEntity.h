@@ -21,7 +21,7 @@ public:
     ControlledSpriteEntity(const std::string& imagePath, int x, int y, int w, int h);
     void addKeyDownListener(SDL_Keycode k, const std::function<void(Entity*)>& lambda);
     void addKeyUpListener(SDL_Keycode k, const std::function<void(Entity*)>& lambda);
-    void tick(SDL_Event e);
+    void tick(SDL_Event& e);
     using SpriteEntity::draw;
 
 };

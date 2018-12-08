@@ -9,13 +9,16 @@
 #include <string>
 #include <SDL.h>
 #include <SDL_image.h>
+#include "Window.h"
 
 class Background {
 public:
-    Background(std::string& bgImgPath);
-    void draw(int camX, int camY, SDL_Renderer* rend);
+    Background(const std::string& bgImgPath);
+    void draw(SDL_Rect& camera, Window& win);
+    int getWidth(){return surf->w;}
+    int getHeight(){return surf->h;}
 private:
-    SDL_Surface surf;
+    SDL_Surface* surf;
 };
 
 

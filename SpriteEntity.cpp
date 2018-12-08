@@ -11,8 +11,7 @@ SpriteEntity::SpriteEntity(const std::string& imagePath, int x, int y, int w, in
     yvel = 0;
 }
 
-void SpriteEntity::tick(SDL_Event ev) {
-    move();
+void SpriteEntity::tick(SDL_Event& ev) {
 }
 
 void SpriteEntity::addVel(int dx, int dy) {
@@ -27,9 +26,15 @@ void SpriteEntity::addVel(int dx, int dy) {
     }
 }
 
-void SpriteEntity::move(){
+void SpriteEntity::move(SDL_Rect& bounds){ //TODO: check level bounds
     rect.x += xvel;
     rect.y += yvel;
+    if( ( rect.x < 0 ) || ( rect.x > bounds.w) ) {
+        rect.x -= xvel;
+    }
+    if( ( rect.y < 0 ) || ( rect.y > bounds.h) ) {
+        rect.y -= yvel;
+    }
 }
 
 const SDL_Rect& SpriteEntity::getRect() const{
@@ -45,4 +50,8 @@ bool SpriteEntity::isColliding(const Entity &se) const{
 
 SpriteEntity::~SpriteEntity() {
     delete sprite;
+}
+
+void SpriteEntity::setCollideFunc(std::function<void(Entity&, Entity&)> f) {
+    collideFunc = f;
 }

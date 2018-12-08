@@ -14,13 +14,13 @@ Window::Window(std::string& title, int w, int h, int posx, int posy){
     this->title = title;
 
     this->win = SDL_CreateWindow(title.c_str(),posx,posy,w,h,SDL_WINDOW_SHOWN);
-    if(win == NULL){
+    if(win == nullptr){
         printf("Could not create window, SDL Error: %s", SDL_GetError());
         throw std::runtime_error("Error creating window");
     }
     this->rend = SDL_CreateRenderer(win,-1,SDL_RENDERER_ACCELERATED);
 
-    if(rend == NULL) {
+    if(rend == nullptr) {
         printf( "Could not create renderer, SDL Error: %s", SDL_GetError());
         throw std::runtime_error("Error creating renderer");
     }

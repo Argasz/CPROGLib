@@ -18,7 +18,7 @@ void ControlledSpriteEntity::addKeyUpListener(const SDL_Keycode k, const std::fu
     keyUpListeners.insert(p);
 }
 
-void ControlledSpriteEntity::tick(SDL_Event e) {
+void ControlledSpriteEntity::tick(SDL_Event& e) {
     if(e.key.repeat == 0){
         std::function<void(Entity*)> i;
         if(e.type == SDL_KEYDOWN)
@@ -26,8 +26,9 @@ void ControlledSpriteEntity::tick(SDL_Event e) {
         else if(e.type == SDL_KEYUP)
             i = keyUpListeners[e.key.keysym.sym];
 
-        if(i != nullptr){
+        if(i != nullptr){ //TODO: Error message
             i(this);
         }
     }
 }
+

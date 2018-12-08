@@ -6,6 +6,7 @@
 #define CPROGLIB_SPRITEENTITY_H
 
 
+#include <functional>
 #include "Entity.h"
 
 class SpriteEntity : public Entity{
@@ -14,23 +15,34 @@ private:
     SDL_Rect rect;
     int xvel, yvel;
     int maxVel = 50;
+    std::function<void(Entity& self, Entity& other)> collideFunc = {};
+    bool tracked = false;
 public:
     SpriteEntity(const std::string& imagePath, int x, int y, int w, int h);
-    virtual void draw(SDL_Renderer* rend){
-        sprite->draw(rend, rect);
-    };
-    const SDL_Rect& getRect() const;
-    virtual void tick(SDL_Event ev);
-    virtual void move();
-    virtual ~SpriteEntity();
-    virtual void addVel(int dx, int dy);
-    virtual bool isColliding(const Entity& se) const;
+    void draw(SDL_Renderer* rend, SDL_Rect& camera) override {
+        SDL_Rect adj = {rect.x - camera.x, rect.y - camera.y, rect.w, rect.h};
+        sprite->draw(rend, adj);
+    }; //TODO: Draw relative to camera
+    const SDL_Rect& getRect() const override;
+    void tick(SDL_Event& ev) override;
+    void move(SDL_Rect& bounds) override;
+    ~SpriteEntity() override;
+    void addVel(int dx, int dy) override;
+    bool isColliding(const Entity& se) const override;
+    void collide(Entity& e) override{
+        collideFunc(*this, e);
+    }
     void setMaxVel(int vel){
         maxVel = vel;
     }
     int getMaxVel(){
         return maxVel;
     }
+    void setCollideFunc(std::function<void(Entity&, Entity&)> f) override;
+
+    void trackWithCamera() override{tracked = true;}
+    void untrack() override {tracked = false;}
+    bool isTracked() override {return tracked;}
 
 };
 

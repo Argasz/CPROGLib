@@ -11,6 +11,8 @@
 #include "Sprite.h"
 #include "Entity.h"
 #include "Window.h"
+#include "Background.h"
+
 
 class EventLoop {
 private:
@@ -20,15 +22,15 @@ private:
     Window* win;
     bool running;
     int mainLoop();
-    void tickEntities(){
-
-    }
+    SDL_Rect camera;
+    Background* bg;
 public:
-    EventLoop(int fps, Window* win);
+    EventLoop(int fps, Window* win, const std::string& bgImgPath);
     ~EventLoop();
     void addEntity(Entity* e);
     void start();
     void stop();
+    void attachCameraToEntity(Entity& ent);
 };
 
 
