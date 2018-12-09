@@ -24,6 +24,7 @@ private:
     int mainLoop();
     SDL_Rect camera;
     Background* bg;
+    void adjustCamera(Entity& e);
 public:
     EventLoop(int fps, Window* win, const std::string& bgImgPath);
     ~EventLoop();

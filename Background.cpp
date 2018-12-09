@@ -15,3 +15,7 @@ void Background::draw(SDL_Rect &camera, Window& win) {
     SDL_RenderCopy(rend, tex, &camera, &rect);
     SDL_DestroyTexture(tex);
 }
+
+Background::~Background(){
+    SDL_FreeSurface(surf);
+}

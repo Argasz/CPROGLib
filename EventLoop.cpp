@@ -20,6 +20,7 @@ EventLoop::~EventLoop() {
     for(auto e : entities){
         delete e;
     }
+    entities.clear();
 }
 
 void EventLoop::start() {
@@ -36,6 +37,24 @@ void EventLoop::addEntity(Entity *e) {
 
 void EventLoop::attachCameraToEntity(Entity &e) {
     e.trackWithCamera();
+}
+
+void EventLoop::adjustCamera(Entity &e) {
+    SDL_Rect er = e.getRect();
+    camera.x = er.x + (er.w/2) - (win->getWidth()/2);
+    camera.y = er.y + (er.h/2) - (win->getHeight()/2);
+    if(camera.x > (bg->getWidth()-camera.w)){
+        camera.x = bg->getWidth()-camera.w;
+    }
+    if(camera.y > (bg->getHeight() - camera.h)){
+        camera.y = bg->getHeight() - camera.h;
+    }
+    if(camera.x < 0){
+        camera.x = 0;
+    }
+    if(camera.y < 0){
+        camera.y = 0;
+    }
 }
 
 
@@ -59,21 +78,7 @@ int EventLoop::mainLoop() {
         }
         for(int i = 0; i < entities.size(); i++){
             if(entities[i]->isTracked()){
-                SDL_Rect er = entities[i]->getRect();
-                camera.x = er.x - (win->getWidth()/2); //TODO: top corner thing
-                camera.y = er.y - (win->getHeight()/2);
-                if(camera.x > (bg->getWidth()-camera.w)){
-                    camera.x = bg->getWidth()-camera.w;
-                }
-                if(camera.y > (bg->getHeight() - camera.h)){
-                    camera.y = bg->getHeight() - camera.h;
-                }
-                if(camera.x < 0){
-                    camera.x = 0;
-                }
-                if(camera.y < 0){
-                    camera.y = 0;
-                }
+                adjustCamera(*entities[i]);
             }
             for(int k = i+1; k < entities.size();k++){
                 if(entities[i]->isColliding(*entities[k])){

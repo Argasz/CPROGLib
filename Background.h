@@ -17,6 +17,7 @@ public:
     void draw(SDL_Rect& camera, Window& win);
     int getWidth(){return surf->w;}
     int getHeight(){return surf->h;}
+    ~Background();
 private:
     SDL_Surface* surf;
 };
