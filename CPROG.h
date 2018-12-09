@@ -7,6 +7,7 @@
 #include "Entity.h"
 #include "SpriteEntity.h"
 #include "ControlledSpriteEntity.h"
+#include "Map.h"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
