@@ -13,13 +13,14 @@ Tile::Tile(const SDL_Rect &dst, const TILE_TYPES t, SDL_Texture& tx, SDL_Rect &s
 }
 
 void Tile::draw(SDL_Rect &camera, SDL_Renderer* rend) {
-    SDL_Rect adjustedPos = {rect.x - camera.x, rect.y - camera.y, rect.w, rect.h};
-    SDL_RenderCopy(rend,tex,&clip,&adjustedPos);
-
+    if(isColliding(camera)) {
+        SDL_Rect adjustedPos = {rect.x - camera.x, rect.y - camera.y, rect.w, rect.h};
+        SDL_RenderCopy(rend, tex, &clip, &adjustedPos);
+    }
 }
 
-bool Tile::isColliding(Entity &e) {
-    SDL_Rect other = e.getRect();
+bool Tile::isColliding(SDL_Rect& r) {
+    SDL_Rect other = r;
     bool ycoll = (this->rect.x <= (other.x + other.w) && (other.x <= (this->rect.x + this->rect.w)));
     bool xcoll = (this->rect.y <= (other.y + other.h) && (other.y <= (this->rect.y + this->rect.h)));
     return ycoll && xcoll;

@@ -20,15 +20,17 @@ private:
 public:
     SpriteEntity(const std::string& imagePath, int x, int y, int w, int h);
     void draw(SDL_Renderer* rend, SDL_Rect& camera) override {
-        SDL_Rect adj = {rect.x - camera.x, rect.y - camera.y, rect.w, rect.h};
-        sprite->draw(rend, adj);
+        if(isColliding(camera)){
+            SDL_Rect adj = {rect.x - camera.x, rect.y - camera.y, rect.w, rect.h};
+            sprite->draw(rend, adj);
+        }
     }; //TODO: Draw relative to camera
-    const SDL_Rect& getRect() const override;
+    SDL_Rect& getRect() override;
     void tick(SDL_Event& ev) override;
     void move(SDL_Rect& bounds) override;
     ~SpriteEntity() override;
     void addVel(int dx, int dy) override;
-    bool isColliding(const Entity& se) const override;
+    bool isColliding(SDL_Rect& r) const override;
     void collide(Entity& e) override{
         collideFunc(*this, e);
     }

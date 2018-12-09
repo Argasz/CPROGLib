@@ -9,7 +9,7 @@
 #include <string>
 #include "Entity.h"
 
-enum class TILE_TYPES {
+enum TILE_TYPES {
     GROUND = 0,
     WALL,
     AIR
@@ -25,7 +25,7 @@ public:
         return type;
     };
     void draw(SDL_Rect& camera, SDL_Renderer* rend);
-    bool isColliding(Entity& e);
+    bool isColliding(SDL_Rect& r);
 private:
     TILE_TYPES type;
     SDL_Rect rect;

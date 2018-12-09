@@ -21,8 +21,8 @@ public:
     virtual bool isTracked() {};
     virtual void move(SDL_Rect& bounds){};
     virtual void addVel(int dx, int dy) {};
-    virtual bool isColliding(const Entity& e) const {};
-    virtual const SDL_Rect& getRect() const{};
+    virtual bool isColliding(SDL_Rect& r) const {};
+    virtual SDL_Rect& getRect(){};
     virtual ~Entity() = default;
     Entity(const Entity& obj) = delete;
     Entity& operator=(const Entity&) = delete;

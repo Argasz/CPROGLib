@@ -37,14 +37,13 @@ void SpriteEntity::move(SDL_Rect& bounds){ //TODO: check level bounds
     }
 }
 
-const SDL_Rect& SpriteEntity::getRect() const{
+SDL_Rect& SpriteEntity::getRect(){
     return rect;
 }
 
-bool SpriteEntity::isColliding(const Entity &se) const{
-    SDL_Rect other = se.getRect();
-    bool ycoll = (this->rect.x <= (other.x + other.w) && (other.x <= (this->rect.x + this->rect.w)));
-    bool xcoll = (this->rect.y <= (other.y + other.h) && (other.y <= (this->rect.y + this->rect.h)));
+bool SpriteEntity::isColliding(SDL_Rect& r) const{
+    bool ycoll = (this->rect.x <= (r.x + r.w) && (r.x <= (this->rect.x + this->rect.w)));
+    bool xcoll = (this->rect.y <= (r.y + r.h) && (r.y <= (this->rect.y + this->rect.h)));
     return ycoll && xcoll;
 }
 
