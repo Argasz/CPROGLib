@@ -5,8 +5,8 @@
 #include "ControlledSpriteEntity.h"
 
 
-ControlledSpriteEntity::ControlledSpriteEntity(const std::string &imagePath, int x, int y, int w, int h)
-:SpriteEntity(imagePath, x, y, w, h) {
+ControlledSpriteEntity::ControlledSpriteEntity(const std::string &imagePath, int x, int y, int w, int h, std::string& id)
+:SpriteEntity(imagePath, x, y, w, h, id) {
 }
 
 void ControlledSpriteEntity::addKeyDownListener(const SDL_Keycode k, const std::function<void(Entity*)>& lambda) {

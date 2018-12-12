@@ -7,12 +7,13 @@
 
 
 
-EventLoop::EventLoop(int fps, Window* win, const std::string& bgImgPath){
+EventLoop::EventLoop(int fps, Window* win, const std::string& bgImgPath, Map& m){
     bg = new Background(bgImgPath);
     this->fps = fps;
     this->win = win;
     running = false;
     camera = {0, 0, win->getWidth(), win->getHeight()};
+    map = &m;
 }
 
 
@@ -80,6 +81,10 @@ int EventLoop::mainLoop() {
             if(entities[i]->isTracked()){
                 adjustCamera(*entities[i]);
             }
+            Tile* t = map->isColliding(entities[i]->getRect());
+            if(t != nullptr && t->getType() == GROUND){
+                entities[i]->setYVel(0);
+            }
             for(int k = i+1; k < entities.size();k++){
                 if(entities[i]->isColliding(entities[k]->getRect())){
                     entities[i]->collide(*entities[k]);
@@ -90,6 +95,7 @@ int EventLoop::mainLoop() {
         win->clear();
 
         bg->draw(camera, *win);
+        map->draw(camera, *(win->getRenderer()));
 
         for(auto e: entities){
             SDL_Rect bounds = {0, 0, bg->getWidth(), bg->getHeight()};

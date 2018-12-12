@@ -21,13 +21,16 @@ public:
     virtual bool isTracked() {};
     virtual void move(SDL_Rect& bounds){};
     virtual void addVel(int dx, int dy) {};
+    virtual void setXVel(int dx)= 0;
+    virtual void setYVel(int dy) = 0;
     virtual bool isColliding(SDL_Rect& r) const {};
     virtual SDL_Rect& getRect(){};
     virtual ~Entity() = default;
     Entity(const Entity& obj) = delete;
     Entity& operator=(const Entity&) = delete;
 protected:
-    Entity() = default;
+    std::string id;
+    Entity(std::string& id) {this->id = id;};
 };
 
 

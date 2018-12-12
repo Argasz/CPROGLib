@@ -15,6 +15,15 @@ Map::Map(std::string& tileSetPath, SDL_Renderer& rend, int w, int h) {
 
 }
 
+Tile* Map::isColliding(SDL_Rect &r) {
+    for(auto tile : tiles){
+        if(tile->isColliding(r)){
+            return tile;
+        }
+    }
+    return nullptr;
+}
+
 void Map::draw(SDL_Rect& camera, SDL_Renderer& rend) {
     for(auto t : tiles){
         t->draw(camera, &rend);
@@ -36,11 +45,11 @@ void Map::loadMap(std::string &path, int mapSize, int tileW, int tileH) {//TODO:
 
     int x, y = 0;
 
-    for(int i = 0; i < mapSize; i++){ //Space separated TYPE:OFFSET pairs
+    for(int i = 0; i < mapSize; i++){ //Space separated TYPE:OFFSETX:OFFSETY
         x = i%width;
         y = (i/width);
 
-        int typ, offset;
+        int typ, offsetx, offsety;
         char cur;
         cur = map.get();
 
@@ -48,7 +57,7 @@ void Map::loadMap(std::string &path, int mapSize, int tileW, int tileH) {//TODO:
             map.close();
             throw std::runtime_error("Error reading file.");//TODO:DO ERROR STUFF
         }else{
-            typ = cur;
+            typ = cur - '0';
         }
 
         cur = map.get();
@@ -58,17 +67,31 @@ void Map::loadMap(std::string &path, int mapSize, int tileW, int tileH) {//TODO:
         }
         std::string offsetS;
         cur = map.get();
-        offsetS.push_back(cur);
         while(cur >= '0' && cur <= '9'){
-            cur = map.get();
             offsetS.push_back(cur);
+            cur = map.get();
+        };
+
+        offsetx = std::stoi(offsetS);
+
+        if(cur != ':'){
+            map.close();
+            throw std::runtime_error("Error reading file.");//TODO:DO ERROR STUFF
         }
+        offsetS.clear();
+        cur = map.get();
+        while(cur >= '0' && cur <= '9'){
+            offsetS.push_back(cur);
+            cur = map.get();
+        };
+        offsety = std::stoi(offsetS);
 
-        offset = std::stoi(offsetS);
         SDL_Rect dst = {x*tileW, y*tileH, tileW, tileH};
-        SDL_Rect src = {offset*tileW, offset/tileW, tileH, tileW};
+        SDL_Rect src = {offsetx*tileW, offsety*tileH, tileH, tileW};
 
-        Tile* tile = new Tile(dst,TILE_TYPES(typ),*tileset,src);
+        TILE_TYPES t;
+        t = static_cast<TILE_TYPES>(typ);
+        Tile* tile = new Tile(dst,t,*tileset,src);
         tiles.push_back(tile);
 
     }

@@ -18,18 +18,24 @@ private:
     std::function<void(Entity& self, Entity& other)> collideFunc = {};
     bool tracked = false;
 public:
-    SpriteEntity(const std::string& imagePath, int x, int y, int w, int h);
+    SpriteEntity(const std::string& imagePath, int x, int y, int w, int h, std::string& id);
     void draw(SDL_Renderer* rend, SDL_Rect& camera) override {
         if(isColliding(camera)){
             SDL_Rect adj = {rect.x - camera.x, rect.y - camera.y, rect.w, rect.h};
             sprite->draw(rend, adj);
         }
-    }; //TODO: Draw relative to camera
+    };
     SDL_Rect& getRect() override;
     void tick(SDL_Event& ev) override;
     void move(SDL_Rect& bounds) override;
     ~SpriteEntity() override;
     void addVel(int dx, int dy) override;
+    void setXVel(int dx){
+        xvel = dx;
+    };
+    void setYVel(int dy){
+        yvel = dy;
+    };
     bool isColliding(SDL_Rect& r) const override;
     void collide(Entity& e) override{
         collideFunc(*this, e);

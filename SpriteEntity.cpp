@@ -4,7 +4,7 @@
 
 #include "SpriteEntity.h"
 
-SpriteEntity::SpriteEntity(const std::string& imagePath, int x, int y, int w, int h) {
+SpriteEntity::SpriteEntity(const std::string& imagePath, int x, int y, int w, int h, std::string& id) : Entity(id) {
     sprite = new Sprite(imagePath);
     rect = {x, y, w, h};
     xvel = 0;
@@ -26,7 +26,7 @@ void SpriteEntity::addVel(int dx, int dy) {
     }
 }
 
-void SpriteEntity::move(SDL_Rect& bounds){ //TODO: check level bounds
+void SpriteEntity::move(SDL_Rect& bounds){ //TODO: check level bounds relcam
     rect.x += xvel;
     rect.y += yvel;
     if( ( rect.x < 0 ) || ( rect.x > bounds.w) ) {

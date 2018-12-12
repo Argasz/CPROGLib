@@ -12,6 +12,7 @@
 #include "Entity.h"
 #include "Window.h"
 #include "Background.h"
+#include "Map.h"
 
 
 class EventLoop {
@@ -25,8 +26,9 @@ private:
     SDL_Rect camera;
     Background* bg;
     void adjustCamera(Entity& e);
+    Map* map;
 public:
-    EventLoop(int fps, Window* win, const std::string& bgImgPath);
+    EventLoop(int fps, Window* win, const std::string& bgImgPath, Map& map);
     ~EventLoop();
     void addEntity(Entity* e);
     void start();

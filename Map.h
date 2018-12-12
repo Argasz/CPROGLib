@@ -15,11 +15,12 @@ public:
     void draw(SDL_Rect& camera, SDL_Renderer& rend);
     ~Map();
     void loadMap(std::string& path, int mapSize, int tileW, int tileH);
-    int width, height;
+    Tile* isColliding(SDL_Rect& r);
+
 private:
     std::vector<Tile*> tiles;
     SDL_Texture* tileset;
-
+    int width, height;
 
 };
 
