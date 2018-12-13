@@ -8,21 +8,23 @@
 
 #include "Tile.h"
 #include <vector>
+#include "Window.h"
+namespace CPROGLib{
+    class Map {
+    public:
+        Map(std::string& tileSetPath, int width, int height);
+        void draw(SDL_Rect& camera);
+        ~Map();
+        void loadMap(std::string& path, int mapSize, int tileW, int tileH);
+        Tile* isColliding(SDL_Rect& r);
 
-class Map {
-public:
-    Map(std::string& tileSetPath, SDL_Renderer& rend, int width, int height);
-    void draw(SDL_Rect& camera, SDL_Renderer& rend);
-    ~Map();
-    void loadMap(std::string& path, int mapSize, int tileW, int tileH);
-    Tile* isColliding(SDL_Rect& r);
+    private:
+        std::vector<Tile*> tiles;
+        SDL_Texture* tileset;
+        int width, height;
 
-private:
-    std::vector<Tile*> tiles;
-    SDL_Texture* tileset;
-    int width, height;
-
-};
+    };
+}
 
 
 #endif //CPROGLIB_MAP_H

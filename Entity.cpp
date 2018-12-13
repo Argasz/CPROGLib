@@ -3,3 +3,6 @@
 //
 
 #include "Entity.h"
+namespace CPROGLib{
+
+}

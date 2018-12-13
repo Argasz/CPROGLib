@@ -8,30 +8,36 @@
 #include "SDL.h"
 #include "string"
 #include "Sprite.h"
+namespace CPROGLib{
+    class Window {
+    private:
+        int width;
+        int height;
+        int posx;
+        int posy;
+        std::string title;
+        SDL_Window* win;
+        SDL_Renderer* rend;
+    public:
+        static void createWindow(std::string& title, int w, int h, int posx, int posy);
+        ~Window();
+        void close();
+        void render();
+        void clear();
+        int getHeight(){
+            return height;
+        }
+        int getWidth(){
+            return width;
+        }
+        SDL_Renderer* getRenderer();
+    protected:
+        Window(std::string& title, int w, int h, int posx, int posy);
 
-class Window {
-private:
-    int width;
-    int height;
-    int posx;
-    int posy;
-    std::string title;
-    SDL_Window* win;
-    SDL_Renderer* rend;
-public:
-    Window(std::string& title, int w, int h, int posx, int posy);
-    ~Window();
-    void close();
-    void render();
-    void clear();
-    int getHeight(){
-        return height;
-    }
-    int getWidth(){
-        return width;
-    }
-    SDL_Renderer* getRenderer();
+    };
 
-};
+    extern Window* window;
+}
+
 
 #endif //CPROGLIB_WINDOW_H

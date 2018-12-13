@@ -4,18 +4,20 @@
 
 #include "Background.h"
 
-Background::Background(const std::string& bgImgPath) {
-    surf = IMG_Load(bgImgPath.c_str());
-}
+namespace CPROGLib{
+    Background::Background(const std::string& bgImgPath) {
+        texture = IMG_LoadTexture(window->getRenderer(),bgImgPath.c_str());
+        SDL_QueryTexture(texture, NULL, NULL, &width, &height);
+    }
 
-void Background::draw(SDL_Rect &camera, Window& win) {
-    SDL_Renderer* rend = win.getRenderer();
-    SDL_Texture* tex = SDL_CreateTextureFromSurface(rend, surf);
-    SDL_Rect rect = {0, 0, win.getWidth(), win.getHeight()};
-    SDL_RenderCopy(rend, tex, &camera, &rect);
-    SDL_DestroyTexture(tex);
-}
+    void Background::draw(SDL_Rect &camera) {
+        SDL_Renderer* rend = window->getRenderer();
+        SDL_Rect rect = {0, 0, window->getWidth(), window->getHeight()};
+        SDL_RenderCopy(rend, texture, &camera, &rect);
+    }
 
-Background::~Background(){
-    SDL_FreeSurface(surf);
+    Background::~Background(){
+        SDL_DestroyTexture(texture);
+    }
+
 }

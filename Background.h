@@ -11,16 +11,18 @@
 #include <SDL_image.h>
 #include "Window.h"
 
-class Background {
-public:
-    Background(const std::string& bgImgPath);
-    void draw(SDL_Rect& camera, Window& win);
-    int getWidth(){return surf->w;}
-    int getHeight(){return surf->h;}
-    ~Background();
-private:
-    SDL_Surface* surf;
-};
-
+namespace CPROGLib{
+    class Background {
+    public:
+        Background(const std::string& bgImgPath);
+        void draw(SDL_Rect& camera);
+        int getWidth(){return width;}
+        int getHeight(){return height;}
+        ~Background();
+    private:
+        SDL_Texture* texture;
+        int width, height;
+    };
+}
 
 #endif //CPROGLIB_BACKGROUND_H

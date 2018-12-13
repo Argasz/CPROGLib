@@ -8,17 +8,18 @@
 
 #include <string>
 #include "SDL.h"
-
-class Window;
-class Sprite {
-private:
-    std::string imagePath;
-    SDL_Surface* surface;
-public:
-    Sprite(const std::string& imagePath);
-    virtual void draw(SDL_Renderer* rend, const SDL_Rect rect);
-    ~Sprite();
-};
-
+#include "SDL_image.h"
+#include "Window.h"
+namespace CPROGLib{
+    class Sprite {
+    private:
+        std::string imagePath;
+        SDL_Texture* texture;
+    public:
+        Sprite(const std::string& imagePath);
+        virtual void draw(const SDL_Rect& rect);
+        ~Sprite();
+    };
+}
 
 #endif //CPROGLIB_SPRITE_H

@@ -3,27 +3,23 @@
 //
 
 #include <stdexcept>
-#include "SDL_image.h"
-#include "Sprite.h"
-#include "Window.h"
-#include "SDL.h"
 
-Sprite::Sprite(const std::string& imagePath){
-    surface = IMG_Load(imagePath.c_str());
-    this->imagePath = imagePath;
-    if(surface == nullptr){
-        printf( "Unable to load image %s! SDL_image Error: %s\n", imagePath.c_str(), IMG_GetError() );
-        throw std::runtime_error("Error loading image.");
+#include "Sprite.h"
+namespace CPROGLib{
+    Sprite::Sprite(const std::string& imagePath){
+        texture = IMG_LoadTexture(window->getRenderer(), imagePath.c_str());
+        this->imagePath = imagePath;
+        if(texture == nullptr){
+            printf( "Unable to load image %s! SDL_image Error: %s\n", imagePath.c_str(), IMG_GetError() );
+            throw std::runtime_error("Error loading image.");
+        }
+    }
+
+    void Sprite::draw(const SDL_Rect& rect) {
+        SDL_RenderCopy(window->getRenderer(), texture, nullptr, &rect);
+    }
+
+    Sprite::~Sprite(){
+        SDL_DestroyTexture(texture);
     }
 }
-
-void Sprite::draw(SDL_Renderer* rend, const SDL_Rect rect) {
-    SDL_Texture* tex = SDL_CreateTextureFromSurface(rend, surface);
-    SDL_RenderCopy(rend, tex, nullptr, &rect);
-    SDL_DestroyTexture(tex);
-}
-
-Sprite::~Sprite(){
-    SDL_FreeSurface(surface);
-}
-

@@ -8,14 +8,16 @@
 #include "SpriteEntity.h"
 #include "ControlledSpriteEntity.h"
 #include "Map.h"
+#include "Tile.h"
+#include "Background.h"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
 
 
-
-void CPROG_init();
-void CPROG_quit();
-
+namespace CPROGLib{
+    void CPROG_init();
+    void CPROG_quit();
+}
 #endif
