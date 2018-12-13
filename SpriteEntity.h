@@ -52,7 +52,7 @@ namespace CPROGLib{
         void trackWithCamera() override{tracked = true;}
         void untrack() override {tracked = false;}
         bool isTracked() override {return tracked;}
-
+        std::string debugText();
     };
 }
 

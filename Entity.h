@@ -28,6 +28,7 @@ class Entity {
         virtual ~Entity() = default;
         Entity(const Entity& obj) = delete;
         Entity& operator=(const Entity&) = delete;
+        virtual std::string debugText() = 0;
     protected:
         std::string id;
         Entity(std::string& id) {this->id = id;};

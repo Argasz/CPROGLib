@@ -75,8 +75,10 @@ namespace CPROGLib{
                 }
             }
             for(int i = 0; i < entities.size(); i++){
-                if(debug){
 
+                if(debug){
+                    std::string tmp = entities[i]->debugText();
+                    debugInfo->addText(tmp);
                 }
                 if(entities[i]->isTracked()){
                     adjustCamera(*entities[i]);
@@ -93,7 +95,6 @@ namespace CPROGLib{
                 }
             }
             window->clear();
-
             bg->draw(camera);
             map->draw(camera);
 
@@ -101,6 +102,11 @@ namespace CPROGLib{
                 SDL_Rect bounds = {0, 0, bg->getWidth(), bg->getHeight()};//TODO: LevelBounds
                 e->move(bounds);
                 e->draw(camera);
+            }
+
+            if(debug){
+
+                debugInfo->print();
             }
 
             window->render();

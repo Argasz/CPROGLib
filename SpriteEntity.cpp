@@ -54,4 +54,20 @@ namespace CPROGLib{
     void SpriteEntity::setCollideFunc(std::function<void(Entity&, Entity&)> f) {
         collideFunc = f;
     }
+
+    std::string SpriteEntity::debugText() {
+        std::string txt;
+        txt.append("id: ");
+        txt.append(id);
+        txt.append(" x: ");
+        txt.append(std::to_string(rect.x));
+        txt.append(" y: ");
+        txt.append(std::to_string(rect.y));
+        txt.append(" xVel: ");
+        txt.append(std::to_string(xvel));
+        txt.append(" yVel: ");
+        txt.append(std::to_string(yvel));
+        txt.append("\n");
+        return txt;
+    }
 }

@@ -7,6 +7,8 @@ namespace CPROGLib{
             printf("SDL error: %s", SDL_GetError());
             throw std::runtime_error("SDL initialization error");
         }
+
+        TTF_Init();
     }
 
     void CPROG_quit(){
