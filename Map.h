@@ -16,8 +16,9 @@ namespace CPROGLib{
         void draw(SDL_Rect& camera);
         ~Map();
         void loadMap(std::string& path, int mapSize, int tileW, int tileH);
-        Tile* isColliding(SDL_Rect& r);
-
+        bool isCollidingGround(SDL_Rect& r);
+        std::string debugText();
+        void drawRects();
     private:
         std::vector<Tile*> tiles;
         SDL_Texture* tileset;

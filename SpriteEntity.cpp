@@ -63,11 +63,22 @@ namespace CPROGLib{
         txt.append(std::to_string(rect.x));
         txt.append(" y: ");
         txt.append(std::to_string(rect.y));
+        txt.append(" w: ");
+        txt.append(std::to_string(rect.w));
+        txt.append(" h: ");
+        txt.append(std::to_string(rect.h));
         txt.append(" xVel: ");
         txt.append(std::to_string(xvel));
         txt.append(" yVel: ");
         txt.append(std::to_string(yvel));
         txt.append("\n");
         return txt;
+    }
+
+    void SpriteEntity::draw(SDL_Rect &camera) {
+        if(isColliding(camera)){
+            SDL_Rect adj = {rect.x - camera.x, rect.y - camera.y, rect.w, rect.h};
+            sprite->draw(adj);
+        }
     }
 }

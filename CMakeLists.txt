@@ -14,9 +14,9 @@ include_directories(${SDL2_IMAGE_INCLUDE_DIR})
 include_directories(${SDL2_MIXER_INCLUDE_DIR})
 include_directories(${SDL2_TTF_INCLUDE_DIR})
 
-add_library(CPROG STATIC CPROG.cpp EventLoop.cpp  Sprite.cpp Window.cpp Entity.cpp SpriteEntity.cpp ControlledSpriteEntity.cpp ControlledSpriteEntity.h Background.cpp Background.h Tile.cpp Tile.h Map.cpp Map.h DebugInfo.cpp DebugInfo.h)
+add_library(CPROG STATIC CPROG.cpp EventLoop.cpp  Sprite.cpp Window.cpp Entity.cpp SpriteEntity.cpp ControlledSpriteEntity.cpp ControlledSpriteEntity.h Background.cpp Background.h Tile.cpp Tile.h Map.cpp Map.h DebugInfo.cpp DebugInfo.h PhysicsObject.cpp PhysicsObject.h)
 set_target_properties(CPROG PROPERTIES PUBLIC_HEADER
-        "CPROG.h;EventLoop.h;Sprite.h;Window.h;Entity.h;SpriteEntity.h;ControlledSpriteEntity.h;Background.h;Tile.h;Map.h;DebugInfo.h")
+        "CPROG.h;EventLoop.h;Sprite.h;Window.h;Entity.h;SpriteEntity.h;ControlledSpriteEntity.h;Background.h;Tile.h;Map.h;DebugInfo.h;PhysicsObject.h")
 
 target_link_libraries(CPROG PUBLIC ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARY} ${SDL2_MIXER_LIBRARY} ${SDL2_TTF_LIBRARY})
 install(TARGETS CPROG DESTINATION C:/cproginc/lib

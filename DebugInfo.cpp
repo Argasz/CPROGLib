@@ -7,7 +7,7 @@
 
 namespace CPROGLib{
     DebugInfo::DebugInfo(int x, int y, int w, int h, std::string& fontPath) {
-        font = TTF_OpenFont(fontPath.c_str(), 10);
+        font = TTF_OpenFont(fontPath.c_str(), 14);
         if(font == nullptr){
             printf( "Unable to load font %s! SDL_TTF Error: %s\n", fontPath.c_str(), TTF_GetError() );
             throw std::runtime_error("Error loading font.");
@@ -30,6 +30,8 @@ namespace CPROGLib{
         int w, h;
         SDL_QueryTexture(texture,NULL,NULL,&w, &h);
         SDL_Rect dst = {rect.x, rect.y, w, h};
+        rect.w = w;
+        rect.h = h;
         SDL_RenderCopy(window->getRenderer(),texture,NULL,&dst);
         SDL_DestroyTexture(texture);
         clear();

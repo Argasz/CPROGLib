@@ -11,6 +11,7 @@ namespace CPROGLib{
         running = false;
         camera = {0, 0, window->getWidth(), window->getHeight()};
         map = &m;
+        physicsObject = nullptr;
     }
 
 
@@ -83,10 +84,6 @@ namespace CPROGLib{
                 if(entities[i]->isTracked()){
                     adjustCamera(*entities[i]);
                 }
-                Tile* t = map->isColliding(entities[i]->getRect());
-                if(t != nullptr && t->getType() == GROUND){
-                    entities[i]->setYVel(0);
-                }
                 for(int k = i+1; k < entities.size();k++){
                     if(entities[i]->isColliding(entities[k]->getRect())){
                         entities[i]->collide(*entities[k]);
@@ -97,15 +94,29 @@ namespace CPROGLib{
             window->clear();
             bg->draw(camera);
             map->draw(camera);
+            if(debug){
+                map->drawRects();
+            }
 
             for(auto e: entities){
+                if(map->isCollidingGround(e->getRect())){
+                    e->setYVel(0); //TODO:Bool onGround eller så
+                }
                 SDL_Rect bounds = {0, 0, bg->getWidth(), bg->getHeight()};//TODO: LevelBounds
                 e->move(bounds);
+                if(physicsObject != nullptr){
+                    physicsObject->applyPhysics(*e);
+                }
                 e->draw(camera);
+                if(debug){
+                    SDL_Rect r = e->getRect();
+                    SDL_RenderDrawRect(window->getRenderer(),&r);
+                }
             }
 
             if(debug){
-
+                std::string tmp = map->debugText();
+                debugInfo->addText(tmp);
                 debugInfo->print();
             }
 

@@ -20,12 +20,7 @@ namespace CPROGLib{
         bool tracked = false;
     public:
         SpriteEntity(const std::string& imagePath, int x, int y, int w, int h, std::string& id);
-        void draw(SDL_Rect& camera) override {
-            if(isColliding(camera)){
-                SDL_Rect adj = {rect.x - camera.x, rect.y - camera.y, rect.w, rect.h};
-                sprite->draw(adj);
-            }
-        };
+        void draw(SDL_Rect& camera) override;
         SDL_Rect& getRect() override;
         void tick(SDL_Event& ev) override;
         void move(SDL_Rect& bounds) override;

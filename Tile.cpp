@@ -20,9 +20,27 @@ namespace CPROGLib{
     }
 
     bool Tile::isColliding(SDL_Rect& r) {
-        SDL_Rect other = r;
-        bool ycoll = (this->rect.x <= (other.x + other.w) && (other.x <= (this->rect.x + this->rect.w)));
-        bool xcoll = (this->rect.y <= (other.y + other.h) && (other.y <= (this->rect.y + this->rect.h)));
+        bool ycoll = (this->rect.x <= (r.x + r.w) && (r.x <= (this->rect.x + this->rect.w)));
+        bool xcoll = (this->rect.y <= (r.y + r.h) && (r.y <= (this->rect.y + this->rect.h)));
         return ycoll && xcoll;
+    }
+
+    std::string Tile::debugText() {
+        std::string ret;
+        ret.append(std::to_string(type));
+        ret.append("{");
+        ret.append(" x: ");
+        ret.append(std::to_string(this->rect.x));
+        ret.append(" y: ");
+        ret.append(std::to_string(this->rect.y));
+        ret.append(" w: ");
+        ret.append(std::to_string(this->rect.w));
+        ret.append(" h: ");
+        ret.append(std::to_string(this->rect.h));
+        return ret;
+    };
+
+    void Tile::drawRect() {
+        SDL_RenderDrawRect(window->getRenderer(), &rect);
     }
 }

@@ -13,13 +13,12 @@ namespace CPROGLib{
 
     }
 
-    Tile* Map::isColliding(SDL_Rect &r) {
+    bool Map::isCollidingGround(SDL_Rect &r) { //TODO: Make dynamic with lambdas or so
         for(auto tile : tiles){
-            if(tile->isColliding(r)){
-                return tile;
+            if(tile->isColliding(r) && tile->getType() == GROUND){
+                return true;
             }
         }
-        return nullptr;
     }
 
     void Map::draw(SDL_Rect& camera) {
@@ -95,5 +94,20 @@ namespace CPROGLib{
         }
 
 
+    }
+
+    std::string Map::debugText() {
+        std::string ret;
+        for(auto t : tiles){
+            ret.append(t->debugText());
+            ret.append("\n");
+        }
+        return ret;
+    }
+
+    void Map::drawRects() {
+        for(auto t : tiles){
+            t->drawRect();
+        }
     }
 }

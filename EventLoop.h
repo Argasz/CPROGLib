@@ -15,6 +15,7 @@
 #include "Background.h"
 #include "Map.h"
 #include "DebugInfo.h"
+#include "PhysicsObject.h"
 
 namespace CPROGLib{
     class EventLoop {
@@ -30,6 +31,7 @@ namespace CPROGLib{
         Map* map;
         bool debug = false;
         DebugInfo* debugInfo;
+        PhysicsObject* physicsObject;
     public:
         EventLoop(int fps, const std::string& bgImgPath, Map& map);
         ~EventLoop();
@@ -39,6 +41,9 @@ namespace CPROGLib{
         void attachCameraToEntity(Entity& ent);
         void addDebugInfo(DebugInfo& debugInfo){
             this->debugInfo = &debugInfo;
+        };
+        void addPhysicsObject(PhysicsObject& p){
+            this->physicsObject = &p;
         };
         void toggleDebug() {
             debug = !debug;
