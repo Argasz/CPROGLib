@@ -10,19 +10,13 @@
 #include "Entity.h"
 #include "Window.h"
 namespace CPROGLib{
-    enum TILE_TYPES {
-        GROUND = 0,
-        WALL,
-        AIR
-    };
-
     class Tile {
     public:
-        Tile(const SDL_Rect& dst, const TILE_TYPES t,SDL_Texture& tx, SDL_Rect &src);
+        Tile(const SDL_Rect& dst, const int t,SDL_Texture& tx, SDL_Rect &src);
         ~Tile(){
             SDL_DestroyTexture(tex);
         };
-        TILE_TYPES getType()const {
+        int getType()const {
             return type;
         };
         void draw(SDL_Rect& camera);
@@ -30,7 +24,7 @@ namespace CPROGLib{
         std::string debugText();
         void drawRect();
     private:
-        TILE_TYPES type;
+        int type;
         SDL_Rect rect;
         SDL_Rect clip;
         SDL_Texture* tex;

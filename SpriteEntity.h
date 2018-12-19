@@ -19,10 +19,10 @@ namespace CPROGLib{
         std::function<void(Entity& self, Entity& other)> collideFunc = {};
         bool tracked = false;
     public:
-        SpriteEntity(const std::string& imagePath, int x, int y, int w, int h, std::string& id);
+        SpriteEntity(const std::string& imagePath, int x, int y, int w, int h, std::string& id, EventLoop& el);
         void draw(SDL_Rect& camera) override;
         SDL_Rect& getRect() override;
-        void tick(SDL_Event& ev) override;
+        void listen(SDL_Event &ev) override;
         void move(SDL_Rect& bounds) override;
         ~SpriteEntity() override;
         void addVel(int dx, int dy) override;
@@ -42,11 +42,11 @@ namespace CPROGLib{
         int getMaxVel(){
             return maxVel;
         }
-        void setCollideFunc(std::function<void(Entity&, Entity&)> f) override;
-
+        virtual void setCollideFunc(std::function<void(Entity&, Entity&)> f);
         void trackWithCamera() override{tracked = true;}
         void untrack() override {tracked = false;}
         bool isTracked() override {return tracked;}
+        virtual void tick();
         std::string debugText();
     };
 }

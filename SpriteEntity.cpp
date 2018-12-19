@@ -3,26 +3,34 @@
 //
 
 #include "SpriteEntity.h"
+#include "EventLoop.h"
 namespace CPROGLib{
-    SpriteEntity::SpriteEntity(const std::string& imagePath, int x, int y, int w, int h, std::string& id) : Entity(id) {
+    SpriteEntity::SpriteEntity(const std::string& imagePath, int x, int y, int w, int h, std::string& id, EventLoop& el) : Entity(el,id) {
         sprite = new Sprite(imagePath);
         rect = {x, y, w, h};
         xvel = 0;
         yvel = 0;
     }
 
-    void SpriteEntity::tick(SDL_Event& ev) {
+    void SpriteEntity::listen(SDL_Event &ev) {
     }
+
 
     void SpriteEntity::addVel(int dx, int dy) {
         this->xvel += dx;
         this->yvel += dy;
 
-        if(xvel >= maxVel || xvel <= -maxVel){
+        if(xvel >= maxVel){
             xvel = 10;
         }
-        if(yvel >= maxVel || yvel <= -maxVel){
+        if(xvel <= -maxVel){
+            xvel = -10;
+        }
+        if(yvel >= maxVel){
             yvel = 10;
+        }
+        if(yvel <= -maxVel){
+            yvel = -10;
         }
     }
 
@@ -71,6 +79,7 @@ namespace CPROGLib{
         txt.append(std::to_string(xvel));
         txt.append(" yVel: ");
         txt.append(std::to_string(yvel));
+        txt.append(" onGround: ");
         txt.append("\n");
         return txt;
     }
@@ -80,5 +89,12 @@ namespace CPROGLib{
             SDL_Rect adj = {rect.x - camera.x, rect.y - camera.y, rect.w, rect.h};
             sprite->draw(adj);
         }
+    }
+
+    void SpriteEntity::tick() {
+        Map& m = el->getMap();
+        move(m.getBounds());
+        el->getPhys().applyPhysics(*this);
+        draw(el->getCamera());
     }
 }

@@ -12,17 +12,22 @@
 namespace CPROGLib{
     class Map {
     public:
+        Map(std::string& tileSetPath, int width, int height, SDL_Rect& bounds);
         Map(std::string& tileSetPath, int width, int height);
         void draw(SDL_Rect& camera);
         ~Map();
         void loadMap(std::string& path, int mapSize, int tileW, int tileH);
-        bool isCollidingGround(SDL_Rect& r);
+        bool collidesWithType(SDL_Rect& r, int type);
         std::string debugText();
         void drawRects();
+        SDL_Rect& getBounds(){
+            return bounds;
+        }
     private:
         std::vector<Tile*> tiles;
         SDL_Texture* tileset;
         int width, height;
+        SDL_Rect bounds;
 
     };
 }

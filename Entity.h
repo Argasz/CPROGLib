@@ -10,11 +10,12 @@
 #include <functional>
 #include "Sprite.h"
 namespace CPROGLib{
-class Entity {
+    class EventLoop;
+class Entity { //TODO: Rewrite, entity has eventloop member, move methods down into hierarchy, restructure eventloop.
     public:
-        virtual void tick(SDL_Event& ev) = 0;
+        virtual void tick() = 0;
+        virtual void listen(SDL_Event &ev) = 0;
         virtual void draw(SDL_Rect& camera) = 0;
-        virtual void setCollideFunc(std::function<void(Entity&, Entity&)> f) = 0;
         virtual void collide(Entity& e) = 0;
         virtual void trackWithCamera(){};
         virtual void untrack() {};
@@ -31,7 +32,8 @@ class Entity {
         virtual std::string debugText() = 0;
     protected:
         std::string id;
-        Entity(std::string& id) {this->id = id;};
+        Entity(EventLoop& el, std::string& id) {this->id = id; this->el = &el;};
+        EventLoop* el;
     };
 }
 

@@ -14,6 +14,12 @@ namespace CPROGLib{
         physicsObject = nullptr;
     }
 
+    void EventLoop::readKeyCommands() {
+        for(auto c : commands){
+            c->perform();
+        }
+    }
+
 
     EventLoop::~EventLoop() {
         for(auto e : entities){
@@ -72,9 +78,11 @@ namespace CPROGLib{
                 }
 
                 for(auto e : entities){
-                    e->tick(ev);
+                    e->listen(ev);
                 }
             }
+
+            readKeyCommands();
             for(int i = 0; i < entities.size(); i++){
 
                 if(debug){
@@ -91,6 +99,7 @@ namespace CPROGLib{
                     }
                 }
             }
+
             window->clear();
             bg->draw(camera);
             map->draw(camera);
@@ -99,15 +108,8 @@ namespace CPROGLib{
             }
 
             for(auto e: entities){
-                if(map->isCollidingGround(e->getRect())){
-                    e->setYVel(0); //TODO:Bool onGround eller så
-                }
-                SDL_Rect bounds = {0, 0, bg->getWidth(), bg->getHeight()};//TODO: LevelBounds
-                e->move(bounds);
-                if(physicsObject != nullptr){
-                    physicsObject->applyPhysics(*e);
-                }
-                e->draw(camera);
+                e->tick();
+
                 if(debug){
                     SDL_Rect r = e->getRect();
                     SDL_RenderDrawRect(window->getRenderer(),&r);
@@ -115,8 +117,6 @@ namespace CPROGLib{
             }
 
             if(debug){
-                std::string tmp = map->debugText();
-                debugInfo->addText(tmp);
                 debugInfo->print();
             }
 

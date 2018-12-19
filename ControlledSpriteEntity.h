@@ -17,10 +17,10 @@ namespace CPROGLib{
         std::unordered_map<SDL_Keycode, std::function<void(Entity*)>> keyDownListeners;
         std::unordered_map<SDL_Keycode, std::function<void(Entity*)>> keyUpListeners;
     public:
-        ControlledSpriteEntity(const std::string& imagePath, int x, int y, int w, int h, std::string& id);
+        ControlledSpriteEntity(const std::string& imagePath, int x, int y, int w, int h, std::string& id, EventLoop& el);
         void addKeyDownListener(SDL_Keycode k, const std::function<void(Entity*)>& lambda);
         void addKeyUpListener(SDL_Keycode k, const std::function<void(Entity*)>& lambda);
-        void tick(SDL_Event& e);
+        void listen(SDL_Event &e);
 
     };
 }

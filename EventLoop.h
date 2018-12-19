@@ -16,6 +16,7 @@
 #include "Map.h"
 #include "DebugInfo.h"
 #include "PhysicsObject.h"
+#include "MemPtrCommand.h"
 
 namespace CPROGLib{
     class EventLoop {
@@ -23,11 +24,13 @@ namespace CPROGLib{
         SDL_Event event;
         int fps;
         std::vector<Entity*> entities;
+        std::vector<KeyCommand*> commands;
         bool running;
         int mainLoop();
         SDL_Rect camera;
         Background* bg;
         void adjustCamera(Entity& e);
+        void readKeyCommands();
         Map* map;
         bool debug = false;
         DebugInfo* debugInfo;
@@ -48,6 +51,19 @@ namespace CPROGLib{
         void toggleDebug() {
             debug = !debug;
         };
+        template <typename T>
+        void addKeyCommand(MemPtrCommand<T>& kc){
+            commands.push_back(&kc);
+        }
+        Map& getMap(){
+            return *map;
+        }
+        SDL_Rect& getCamera(){
+            return camera;
+        }
+        PhysicsObject& getPhys(){
+            return *physicsObject;
+        }
     };
 }
 

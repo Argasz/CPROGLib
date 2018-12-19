@@ -5,7 +5,7 @@
 #include "Tile.h"
 
 namespace CPROGLib{
-    Tile::Tile(const SDL_Rect &dst, const TILE_TYPES t, SDL_Texture& tx, SDL_Rect &src) {
+    Tile::Tile(const SDL_Rect &dst, const int t, SDL_Texture& tx, SDL_Rect &src) {
         rect = dst;
         clip = src;
         type = t;
