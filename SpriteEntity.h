@@ -48,6 +48,19 @@ namespace CPROGLib{
         bool isTracked() override {return tracked;}
         virtual void tick();
         std::string debugText();
+        int getXVel(){
+            return xvel;
+        }
+        int getYVel(){
+            return yvel;
+        }
+        void setY(int y){
+            rect.y = y;
+        }
+        void setX(int x){ //TODO: Check bounds?
+            rect.x = x;
+        }
+
     };
 }
 

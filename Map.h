@@ -23,6 +23,9 @@ namespace CPROGLib{
         SDL_Rect& getBounds(){
             return bounds;
         }
+        void setBounds(SDL_Rect& bounds){
+            this->bounds = bounds;
+        }
     private:
         std::vector<Tile*> tiles;
         SDL_Texture* tileset;

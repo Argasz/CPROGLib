@@ -21,16 +21,16 @@ namespace CPROGLib{
         this->yvel += dy;
 
         if(xvel >= maxVel){
-            xvel = 10;
+            xvel = maxVel;
         }
         if(xvel <= -maxVel){
-            xvel = -10;
+            xvel = -maxVel;
         }
         if(yvel >= maxVel){
-            yvel = 10;
+            yvel = maxVel;
         }
         if(yvel <= -maxVel){
-            yvel = -10;
+            yvel = -maxVel;
         }
     }
 

@@ -27,6 +27,7 @@ namespace CPROGLib{
                 return true;
             }
         }
+        return false;
     }
 
     void Map::draw(SDL_Rect& camera) {
