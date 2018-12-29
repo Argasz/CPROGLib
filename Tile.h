@@ -22,7 +22,7 @@ namespace CPROGLib{
         void draw(SDL_Rect& camera);
         bool isColliding(SDL_Rect& r);
         std::string debugText();
-        void drawRect();
+        void drawRect(SDL_Rect& camera);
     private:
         int type;
         SDL_Rect rect;

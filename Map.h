@@ -19,7 +19,7 @@ namespace CPROGLib{
         void loadMap(std::string& path, int mapSize, int tileW, int tileH);
         bool collidesWithType(SDL_Rect& r, int type);
         std::string debugText();
-        void drawRects();
+        void drawRects(SDL_Rect& camera);
         SDL_Rect& getBounds(){
             return bounds;
         }

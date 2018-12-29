@@ -106,9 +106,9 @@ namespace CPROGLib{
         return ret;
     }
 
-    void Map::drawRects() {
+    void Map::drawRects(SDL_Rect& camera) {
         for(auto t : tiles){
-            t->drawRect();
+            t->drawRect(camera);
         }
     }
 }

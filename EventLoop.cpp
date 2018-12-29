@@ -104,7 +104,7 @@ namespace CPROGLib{
             bg->draw(camera);
             map->draw(camera);
             if(debug){
-                map->drawRects();
+                map->drawRects(camera);
             }
 
             for(auto e: entities){

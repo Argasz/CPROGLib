@@ -40,7 +40,8 @@ namespace CPROGLib{
         return ret;
     };
 
-    void Tile::drawRect() {
-        SDL_RenderDrawRect(window->getRenderer(), &rect);
+    void Tile::drawRect(SDL_Rect& camera) {
+        SDL_Rect temp = {rect.x - camera.x, rect.y - camera.y, rect.w, rect.h};
+        SDL_RenderDrawRect(window->getRenderer(), &temp);
     }
 }
