@@ -111,7 +111,7 @@ namespace CPROGLib{
                 e->tick();
 
                 if(debug){
-                    SDL_Rect r = e->getRect();
+                    SDL_Rect r = {e->getRect().x - camera.x, e->getRect().y - camera.y, e->getRect().w, e->getRect().h};
                     SDL_RenderDrawRect(window->getRenderer(),&r);
                 }
             }
