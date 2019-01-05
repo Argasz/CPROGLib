@@ -9,6 +9,7 @@
 #include "ControlledSpriteEntity.h"
 #include "Map.h"
 #include "Tile.h"
+#include "PerPixelCollider.h"
 #include "Background.h"
 #include <SDL.h>
 #include <SDL_image.h>

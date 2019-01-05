@@ -9,6 +9,8 @@
 #include <functional>
 #include "Entity.h"
 #include "Sprite.h"
+#include "Collider.h"
+
 namespace CPROGLib{
     class SpriteEntity : public Entity{
     private:
@@ -33,6 +35,7 @@ namespace CPROGLib{
             yvel = dy;
         };
         bool isColliding(SDL_Rect& r) const override;
+        bool isCollidingPerPixel(Collider& c); //TODO: Implement
         void collide(Entity& e) override{
             collideFunc(*this, e);
         }

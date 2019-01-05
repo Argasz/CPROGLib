@@ -4,6 +4,7 @@
 
 #include "SpriteEntity.h"
 #include "EventLoop.h"
+#include "PerPixelCollider.h"
 namespace CPROGLib{
     SpriteEntity::SpriteEntity(const std::string& imagePath, int x, int y, int w, int h, std::string& id, EventLoop& el) : Entity(el,id) {
         sprite = new Sprite(imagePath);
@@ -54,6 +55,15 @@ namespace CPROGLib{
         bool xcoll = (this->rect.y <= (r.y + r.h) && (r.y <= (this->rect.y + this->rect.h)));
         return ycoll && xcoll;
     }
+
+    bool SpriteEntity::isCollidingPerPixel(Collider& c){
+        if(typeid(c) == typeid(PerPixelCollider)){
+            //Collide per pixel
+        }else{
+            //TODO: Check collision type of this?
+            //Collide bounding box
+        }
+    };
 
     SpriteEntity::~SpriteEntity() {
         delete sprite;
