@@ -64,6 +64,9 @@ namespace CPROGLib{
         PhysicsObject& getPhys(){
             return *physicsObject;
         }
+        std::vector<Entity*> getEntities(){
+            return entities;
+        }
     };
 }
 

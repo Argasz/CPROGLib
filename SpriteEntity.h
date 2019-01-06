@@ -20,8 +20,9 @@ namespace CPROGLib{
         int maxVel = 50;
         std::function<void(Entity& self, Entity& other)> collideFunc = {};
         bool tracked = false;
+        Collider* c;
     public:
-        SpriteEntity(const std::string& imagePath, int x, int y, int w, int h, std::string& id, EventLoop& el);
+        SpriteEntity(const std::string& imagePath, int x, int y, int w, int h, std::string& id, EventLoop& el, int collType); //TODO: Constants
         void draw(SDL_Rect& camera) override;
         SDL_Rect& getRect() override;
         void listen(SDL_Event &ev) override;
@@ -34,8 +35,7 @@ namespace CPROGLib{
         void setYVel(int dy){
             yvel = dy;
         };
-        bool isColliding(SDL_Rect& r) const override;
-        bool isCollidingPerPixel(Collider& c); //TODO: Implement
+        bool isColliding(Collider& c) const override;
         void collide(Entity& e) override{
             collideFunc(*this, e);
         }

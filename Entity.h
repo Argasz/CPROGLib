@@ -9,6 +9,7 @@
 #include <SDL_render.h>
 #include <functional>
 #include "Sprite.h"
+#include "Collider.h"
 namespace CPROGLib{
     class EventLoop;
 class Entity { //TODO: Rewrite, entity has eventloop member, move methods down into hierarchy, restructure eventloop.
@@ -22,9 +23,9 @@ class Entity { //TODO: Rewrite, entity has eventloop member, move methods down i
         virtual bool isTracked() {};
         virtual void move(SDL_Rect& bounds){};
         virtual void addVel(int dx, int dy) {};
-        virtual void setXVel(int dx)= 0;
-        virtual void setYVel(int dy) = 0;
-        virtual bool isColliding(SDL_Rect& r) const {};
+        //virtual void setXVel(int dx)= 0;
+        //virtual void setYVel(int dy) = 0;
+        virtual bool isColliding(Collider& c) const {};
         virtual SDL_Rect& getRect(){};
         virtual ~Entity() = default;
         Entity(const Entity& obj) = delete;

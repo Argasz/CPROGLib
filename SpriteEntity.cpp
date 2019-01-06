@@ -5,12 +5,20 @@
 #include "SpriteEntity.h"
 #include "EventLoop.h"
 #include "PerPixelCollider.h"
+#include <typeinfo>
 namespace CPROGLib{
-    SpriteEntity::SpriteEntity(const std::string& imagePath, int x, int y, int w, int h, std::string& id, EventLoop& el) : Entity(el,id) {
+    SpriteEntity::SpriteEntity(const std::string& imagePath, int x, int y, int w, int h, std::string& id, EventLoop& el, int collType) : Entity(el,id) {
         sprite = new Sprite(imagePath);
         rect = {x, y, w, h};
         xvel = 0;
         yvel = 0;
+        if(collType == 0){
+            c = new Collider(x,y,w,h);//TODO: Collider type
+        }else if(collType == 1){
+            SDL_Surface* tmp = IMG_Load(imagePath.c_str());
+            c =  new PerPixelCollider(x,y,*tmp);
+            SDL_FreeSurface(tmp);
+        }
     }
 
     void SpriteEntity::listen(SDL_Event &ev) {
@@ -35,7 +43,7 @@ namespace CPROGLib{
         }
     }
 
-    void SpriteEntity::move(SDL_Rect& bounds){ //TODO: check level bounds relcam
+    void SpriteEntity::move(SDL_Rect& bounds){
         rect.x += xvel;
         rect.y += yvel;
         if( ( rect.x < 0 ) || ( rect.x > bounds.w) ) {
@@ -44,26 +52,18 @@ namespace CPROGLib{
         if( ( rect.y < 0 ) || ( rect.y > bounds.h) ) {
             rect.y -= yvel;
         }
+        c->setX(rect.x);
+        c->setY(rect.y);
     }
 
     SDL_Rect& SpriteEntity::getRect(){
         return rect;
     }
 
-    bool SpriteEntity::isColliding(SDL_Rect& r) const{
-        bool ycoll = (this->rect.x <= (r.x + r.w) && (r.x <= (this->rect.x + this->rect.w)));
-        bool xcoll = (this->rect.y <= (r.y + r.h) && (r.y <= (this->rect.y + this->rect.h)));
-        return ycoll && xcoll;
+    bool SpriteEntity::isColliding(Collider& other) const{
+        return c->isColliding(other);
     }
 
-    bool SpriteEntity::isCollidingPerPixel(Collider& c){
-        if(typeid(c) == typeid(PerPixelCollider)){
-            //Collide per pixel
-        }else{
-            //TODO: Check collision type of this?
-            //Collide bounding box
-        }
-    };
 
     SpriteEntity::~SpriteEntity() {
         delete sprite;
@@ -95,7 +95,7 @@ namespace CPROGLib{
     }
 
     void SpriteEntity::draw(SDL_Rect &camera) {
-        if(isColliding(camera)){
+        if( c->collideRects(camera,this->rect)){
             SDL_Rect adj = {rect.x - camera.x, rect.y - camera.y, rect.w, rect.h};
             sprite->draw(adj);
         }
@@ -103,8 +103,14 @@ namespace CPROGLib{
 
     void SpriteEntity::tick() {
         Map& m = el->getMap();
+        for(Entity* e: el->getEntities()){
+            if(e->isColliding(*c)){
+                collide(*e);
+            }
+        }
         move(m.getBounds());
         el->getPhys().applyPhysics(*this);
         draw(el->getCamera());
+
     }
 }

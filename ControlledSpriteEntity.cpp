@@ -5,8 +5,8 @@
 #include "ControlledSpriteEntity.h"
 
 namespace CPROGLib{
-    ControlledSpriteEntity::ControlledSpriteEntity(const std::string &imagePath, int x, int y, int w, int h, std::string& id, EventLoop& el)
-    :SpriteEntity(imagePath, x, y, w, h, id, el) {
+    ControlledSpriteEntity::ControlledSpriteEntity(const std::string &imagePath, int x, int y, int w, int h, std::string& id, EventLoop& el, int collType)
+    :SpriteEntity(imagePath, x, y, w, h, id, el, collType) {
     }
 
     void ControlledSpriteEntity::addKeyDownListener(const SDL_Keycode k, const std::function<void(Entity*)>& lambda) {

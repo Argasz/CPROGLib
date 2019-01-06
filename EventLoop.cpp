@@ -92,12 +92,12 @@ namespace CPROGLib{
                 if(entities[i]->isTracked()){
                     adjustCamera(*entities[i]);
                 }
-                for(int k = i+1; k < entities.size();k++){
+               /* for(int k = i+1; k < entities.size();k++){
                     if(entities[i]->isColliding(entities[k]->getRect())){
                         entities[i]->collide(*entities[k]);
                         entities[k]->collide(*entities[i]);
                     }
-                }
+                }*/
             }
 
             window->clear();
