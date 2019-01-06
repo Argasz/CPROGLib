@@ -18,6 +18,8 @@ namespace CPROGLib {
         ~PerPixelCollider() = default;
         virtual bool isColliding(Collider& c); //TODO: TEMP
         bool rectCollideWithRects(SDL_Rect &r);
+        void setX(int x) override;
+        void setY(int y) override;
     private:
         std::vector<SDL_Rect> rects;
         void generateRects(SDL_Surface& img);

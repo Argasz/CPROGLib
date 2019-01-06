@@ -23,10 +23,11 @@ namespace CPROGLib {
             bool xcoll = (r1.y <= (r2.y + r2.h) && (r2.y <= (r1.y + r1.h)));
             return ycoll && xcoll;
         };
-        void setX(int x){
+
+        virtual void setX(int x){
             boundingBox.x = x;
         };
-        void setY(int y){
+        virtual void setY(int y){
             boundingBox.y = y;
         }
     protected:

@@ -12,6 +12,7 @@ namespace CPROGLib{
         rect = {x, y, w, h};
         xvel = 0;
         yvel = 0;
+        this->collType = collType;
         if(collType == 0){
             c = new Collider(x,y,w,h);//TODO: Collider type
         }else if(collType == 1){
@@ -46,6 +47,7 @@ namespace CPROGLib{
     void SpriteEntity::move(SDL_Rect& bounds){
         rect.x += xvel;
         rect.y += yvel;
+
         if( ( rect.x < 0 ) || ( rect.x > bounds.w) ) {
             rect.x -= xvel;
         }
@@ -104,8 +106,10 @@ namespace CPROGLib{
     void SpriteEntity::tick() {
         Map& m = el->getMap();
         for(Entity* e: el->getEntities()){
-            if(e->isColliding(*c)){
-                collide(*e);
+            if(e != this){
+                if(e->isColliding(*c)){
+                    collide(*e);
+                }
             }
         }
         move(m.getBounds());

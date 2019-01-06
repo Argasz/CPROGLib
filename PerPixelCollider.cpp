@@ -10,7 +10,7 @@ namespace CPROGLib {
         generateRects(img);
     }
 
-    void PerPixelCollider::generateRects(SDL_Surface &img) {
+    void PerPixelCollider::generateRects(SDL_Surface &img) { //TODO:Ta emot texture el.dyl.
         Uint32* pixels = static_cast<Uint32*>(img.pixels);
         Uint32 pixelCount = (img.h * (img.pitch / img.format->BytesPerPixel));
         SDL_LockSurface(&img);
@@ -34,8 +34,8 @@ namespace CPROGLib {
                     w = boundingBox.x + (i%img.w) - x;
                     h = boundingBox.y + (i/img.w) - y;
                     h+=1;
-                    SDL_Rect tmp = {x, y, w, h};
-                    rects.push_back(tmp);
+                    SDL_Rect tmpr = {x, y, w, h};
+                    rects.push_back(tmpr);
                     run = false;
                 }
             }
@@ -48,9 +48,9 @@ namespace CPROGLib {
             if(typeid(c) == typeid(Collider)){
                 return true;
             }else if (typeid(c) == typeid(PerPixelCollider)){
-                PerPixelCollider ppc = dynamic_cast<PerPixelCollider&>(c);
+                PerPixelCollider* ppc = dynamic_cast<PerPixelCollider*>(&c);
                 for(SDL_Rect r : rects){
-                    if(ppc.rectCollideWithRects(r)){
+                    if(ppc->rectCollideWithRects(r)){
                         return true;
                     }
                 }
@@ -67,6 +67,23 @@ namespace CPROGLib {
         }
         return false;
     };
+
+
+    void PerPixelCollider::setX(int x){
+        for(int i = 0; i < rects.size(); i++){
+            rects[i].x +=  x - boundingBox.x;
+        }
+
+        boundingBox.x = x;
+    }
+
+    void PerPixelCollider::setY(int y){
+        for(int i = 0; i < rects.size(); i++){
+            rects[i].y +=  y - boundingBox.y;
+        }
+        boundingBox.y = y;
+
+    }
 
 
 }

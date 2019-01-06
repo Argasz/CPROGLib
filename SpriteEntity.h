@@ -20,7 +20,7 @@ namespace CPROGLib{
         int maxVel = 50;
         std::function<void(Entity& self, Entity& other)> collideFunc = {};
         bool tracked = false;
-        Collider* c;
+        int collType;
     public:
         SpriteEntity(const std::string& imagePath, int x, int y, int w, int h, std::string& id, EventLoop& el, int collType); //TODO: Constants
         void draw(SDL_Rect& camera) override;
@@ -63,6 +63,12 @@ namespace CPROGLib{
         void setX(int x){ //TODO: Check bounds?
             rect.x = x;
         }
+        int getCollType(){
+            return collType;
+        }
+
+    protected:
+        Collider* c;
 
     };
 }
