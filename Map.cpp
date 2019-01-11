@@ -5,6 +5,7 @@
 #include <fstream>
 #include <SDL_image.h>
 #include "Map.h"
+
 namespace CPROGLib{
     Map::Map(std::string& tileSetPath, int w, int h, SDL_Rect& bounds) {
         tileset = IMG_LoadTexture(window->getRenderer(), tileSetPath.c_str());
@@ -19,6 +20,18 @@ namespace CPROGLib{
         width = w;
         height = h;
 
+    }
+    //Collides ppc with tiles of a type
+    // returns a list of pairs of collided tiles and the corresponding rectangle from the collider.
+    std::vector<std::pair<Tile*, SDL_Rect>> Map::collidesWithTypePerPixel(PerPixelCollider& ppc, const int type) {
+        std::vector<std::pair<Tile*, SDL_Rect>> tilesRects;
+        for(auto tile : tiles){//TODO:Check bounding box?
+            auto r = ppc.rectCollideWithRects(tile->getRect());
+            if(r.x > 0 && tile->getType() == type){
+                tilesRects.emplace_back(std::make_pair(tile,r));
+            }
+        }
+        return tilesRects;
     }
 
     bool Map::collidesWithType(SDL_Rect &r, int type) {
@@ -64,7 +77,7 @@ namespace CPROGLib{
             cur = map.get();
             if(cur != ':'){
                 map.close();
-                throw std::runtime_error("Error reading file.");//TODO:DO ERROR STUFF
+                throw std::runtime_error("Error reading file. Expected :");//TODO:DO ERROR STUFF
             }
             std::string offsetS;
             cur = map.get();
@@ -77,7 +90,7 @@ namespace CPROGLib{
 
             if(cur != ':'){
                 map.close();
-                throw std::runtime_error("Error reading file.");//TODO:DO ERROR STUFF
+                throw std::runtime_error("Error reading file. Expected :");//TODO:DO ERROR STUFF
             }
             offsetS.clear();
             cur = map.get();

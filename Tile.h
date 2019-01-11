@@ -23,6 +23,9 @@ namespace CPROGLib{
         bool isColliding(SDL_Rect& r);
         std::string debugText();
         void drawRect(SDL_Rect& camera);
+        SDL_Rect& getRect(){
+            return rect;
+        }
     private:
         int type;
         SDL_Rect rect;

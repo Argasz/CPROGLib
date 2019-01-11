@@ -37,7 +37,9 @@ namespace CPROGLib{
         };
         bool isColliding(Collider& c) const override;
         void collide(Entity& e) override{
-            collideFunc(*this, e);
+            if(collideFunc) {
+                collideFunc(*this, e);
+            }
         }
         void setMaxVel(int vel){
             maxVel = vel;

@@ -7,7 +7,7 @@
 namespace CPROGLib {
     PhysicsObject::PhysicsObject(int gravity, int freq) {
         this->gravity = gravity;
-        frameCount = freq;
+        frameCount = 0;
         this->freq = freq;
         gravityOn = true;
     }
@@ -15,10 +15,7 @@ namespace CPROGLib {
     void PhysicsObject::applyPhysics(SpriteEntity& e) {
         if(gravityOn){//TODO:Move to function
             if(frameCount == 0){
-                frameCount = freq;
                 e.addVel(0,gravity);
-            }else{
-                --frameCount;
             }
         }
     }

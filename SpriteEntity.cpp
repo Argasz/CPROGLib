@@ -14,9 +14,9 @@ namespace CPROGLib{
         yvel = 0;
         this->collType = collType;
         if(collType == 0){
-            c = new Collider(x,y,w,h);//TODO: Collider type
+            c = new Collider(x,y,w,h);
         }else if(collType == 1){
-            SDL_Surface* tmp = IMG_Load(imagePath.c_str());
+            SDL_Surface* tmp = IMG_Load(imagePath.c_str());//TODO: Change?
             c =  new PerPixelCollider(x,y,*tmp);
             SDL_FreeSurface(tmp);
         }
@@ -97,7 +97,7 @@ namespace CPROGLib{
     }
 
     void SpriteEntity::draw(SDL_Rect &camera) {
-        if( c->collideRects(camera,this->rect)){
+        if( Collider::collideRects(camera,this->rect)){
             SDL_Rect adj = {rect.x - camera.x, rect.y - camera.y, rect.w, rect.h};
             sprite->draw(adj);
         }

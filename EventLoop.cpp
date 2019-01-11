@@ -88,6 +88,8 @@ namespace CPROGLib{
                 if(debug){
                     std::string tmp = entities[i]->debugText();
                     debugInfo->addText(tmp);
+                    auto s = physicsObject->gfc();
+                    debugInfo->addText(s);
                 }
                 if(entities[i]->isTracked()){
                     adjustCamera(*entities[i]);
@@ -107,14 +109,16 @@ namespace CPROGLib{
                 map->drawRects(camera);
             }
 
+
+
             for(auto e: entities){
                 e->tick();
-
                 if(debug){
                     SDL_Rect r = {e->getRect().x - camera.x, e->getRect().y - camera.y, e->getRect().w, e->getRect().h};
                     SDL_RenderDrawRect(window->getRenderer(),&r);
                 }
             }
+            physicsObject->dec();
 
             if(debug){
                 debugInfo->print();

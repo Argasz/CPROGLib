@@ -9,6 +9,8 @@
 #include "Tile.h"
 #include <vector>
 #include "Window.h"
+#include "PerPixelCollider.h"
+
 namespace CPROGLib{
     class Map {
     public:
@@ -18,6 +20,7 @@ namespace CPROGLib{
         ~Map();
         void loadMap(std::string& path, int mapSize, int tileW, int tileH);
         bool collidesWithType(SDL_Rect& r, int type);
+        std::vector<std::pair<Tile*, SDL_Rect>> collidesWithTypePerPixel(PerPixelCollider& ppc, const int type);
         std::string debugText();
         void drawRects(SDL_Rect& camera);
         SDL_Rect& getBounds(){

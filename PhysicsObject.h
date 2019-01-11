@@ -17,6 +17,19 @@ namespace CPROGLib {
         void setGravityOn(bool onOff){
             gravityOn = onOff;
         };
+        void reset(){
+            frameCount = freq;
+        }
+        void dec(){
+            if(frameCount > 0){
+                frameCount--;
+            }else{
+                reset();
+            }
+        };
+        std::string gfc(){
+            return std::to_string(frameCount);
+        }
     private:
         int gravity;
         int frameCount;

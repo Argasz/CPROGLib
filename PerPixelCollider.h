@@ -17,7 +17,7 @@ namespace CPROGLib {
         PerPixelCollider(int x, int y, SDL_Surface& img);
         ~PerPixelCollider() = default;
         virtual bool isColliding(Collider& c); //TODO: TEMP
-        bool rectCollideWithRects(SDL_Rect &r);
+        SDL_Rect rectCollideWithRects(SDL_Rect &r);
         void setX(int x) override;
         void setY(int y) override;
     private:

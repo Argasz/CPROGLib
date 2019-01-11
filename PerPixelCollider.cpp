@@ -50,7 +50,7 @@ namespace CPROGLib {
             }else if (typeid(c) == typeid(PerPixelCollider)){
                 PerPixelCollider* ppc = dynamic_cast<PerPixelCollider*>(&c);
                 for(SDL_Rect r : rects){
-                    if(ppc->rectCollideWithRects(r)){
+                    if(ppc->rectCollideWithRects(r).x > 0){
                         return true;
                     }
                 }
@@ -59,13 +59,13 @@ namespace CPROGLib {
         return false;
     };
 
-    bool PerPixelCollider::rectCollideWithRects(SDL_Rect &r){
+    SDL_Rect PerPixelCollider::rectCollideWithRects(SDL_Rect &r){//TODO: Back to bool?
         for(SDL_Rect r1 : rects){
             if(collideRects(r, r1)){
-                return true;
+                return r1;
             }
         }
-        return false;
+        return {-1,0,0,0};
     };
 
 
