@@ -4,4 +4,23 @@
 
 #include "AnimatedSprite.h"
 
-namespace CPROGLib {}
+namespace CPROGLib {
+    AnimatedSprite::AnimatedSprite(const std::string &imagePath, int freq, int frameWidth, int frameHeight, int rows, int cols) : Sprite(imagePath){
+        this->freq = freq;
+        this->cur = 0;
+        this->cols = cols;
+        this->rows = rows;
+        this->frameW = frameWidth;
+        this->frameH = frameHeight;
+        for(int c = 0; c < cols; c++){
+            for(int r = 0; r < rows; r++){
+                srcRects.push_back({c*frameW,r*frameH,frameW, frameH});
+            }
+        }
+
+
+    }
+    void AnimatedSprite::draw(const SDL_Rect& rect) {
+        SDL_RenderCopy(window->getRenderer(), getTexture(), &srcRects[cur], &rect);
+    }
+}

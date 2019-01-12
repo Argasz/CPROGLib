@@ -19,6 +19,11 @@ namespace CPROGLib{
         Sprite(const std::string& imagePath);
         virtual void draw(const SDL_Rect& rect);
         ~Sprite();
+
+    protected:
+        SDL_Texture* getTexture(){
+            return texture;
+        }
     };
 }
 

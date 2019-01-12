@@ -5,6 +5,7 @@
 #include "Tile.h"
 
 namespace CPROGLib{
+    //TODO:Segment rects into top,bottom,l,r.
     Tile::Tile(const SDL_Rect &dst, const int t, SDL_Texture& tx, SDL_Rect &src) {
         rect = dst;
         clip = src;
