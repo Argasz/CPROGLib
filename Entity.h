@@ -12,6 +12,7 @@
 #include "Collider.h"
 namespace CPROGLib{
     class EventLoop;
+    //TODO: Polymorfa klasser ska inte tillåta värdesemantik (getInstance factories)
 class Entity { //TODO: Rewrite, entity has eventloop member, move methods down into hierarchy, restructure eventloop.
     public:
         virtual void tick() = 0;
@@ -28,13 +29,13 @@ class Entity { //TODO: Rewrite, entity has eventloop member, move methods down i
         virtual bool isColliding(Collider& c) const {};
         virtual SDL_Rect& getRect(){};
         virtual ~Entity() = default;
+        virtual std::string debugText() = 0;
         Entity(const Entity& obj) = delete;
         Entity& operator=(const Entity&) = delete;
-        virtual std::string debugText() = 0;
     protected:
-        std::string id;
+        std::string id;//TODO:Private
         Entity(EventLoop& el, std::string& id) {this->id = id; this->el = &el;};
-        EventLoop* el;
+        EventLoop* el;//TODO:Private
     };
 }
 

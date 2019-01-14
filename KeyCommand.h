@@ -11,6 +11,8 @@ namespace CPROGLib {
     public:
         virtual void perform() = 0;
         virtual ~KeyCommand(){};
+        KeyCommand(const KeyCommand& obj) = delete;
+        KeyCommand& operator=(const KeyCommand&) = delete;
     protected:
         KeyCommand(){};
     };

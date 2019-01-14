@@ -18,7 +18,7 @@ namespace CPROGLib {
         ~AnimatedSprite();
     private:
         std::vector<SDL_Rect> srcRects;
-        int freq,cur,rows, cols,frameW,frameH;
+        int freq,cur,rows, cols,frameW,frameH,frame;
     };
 
 }

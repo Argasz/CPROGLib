@@ -12,6 +12,7 @@
 namespace CPROGLib{
     class Tile {
     public:
+        static const int NONE = 0, NW = 1, N = 2, NE = 3, E = 4, SE = 5, S = 6, SW = 7, W = 8;
         Tile(const SDL_Rect& dst, const int t,SDL_Texture& tx, SDL_Rect &src);
         ~Tile(){
             SDL_DestroyTexture(tex);
@@ -26,10 +27,10 @@ namespace CPROGLib{
         SDL_Rect& getRect(){
             return rect;
         }
+        int collidesRegion(SDL_Rect& boundingBox);
     private:
         int type;
-        SDL_Rect rect;
-        SDL_Rect clip;
+        SDL_Rect rect, top,btm,l,r, clip;
         SDL_Texture* tex;
 
     };

@@ -12,6 +12,7 @@ namespace CPROGLib {
         this->rows = rows;
         this->frameW = frameWidth;
         this->frameH = frameHeight;
+        this->frame = 0;
         for(int c = 0; c < cols; c++){
             for(int r = 0; r < rows; r++){
                 srcRects.push_back({c*frameW,r*frameH,frameW, frameH});
@@ -21,6 +22,15 @@ namespace CPROGLib {
 
     }
     void AnimatedSprite::draw(const SDL_Rect& rect) {
-        SDL_RenderCopy(window->getRenderer(), getTexture(), &srcRects[cur], &rect);
+        if(cur == 0){
+            SDL_RenderCopy(window->getRenderer(), getTexture(), &srcRects[frame], &rect);
+            frame++;
+            if(frame >= srcRects.size()){
+                frame = 0;
+            }
+            cur = freq;
+        }
+        cur--;
+
     }
 }

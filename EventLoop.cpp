@@ -37,7 +37,7 @@ namespace CPROGLib{
         running = false;
     }
     void EventLoop::addEntity(Entity *e) {
-        entities.push_back(e); //TODO:Changes during iteration
+        added.push_back(e); //TODO:Changes during iteration
     }
 
     void EventLoop::attachCameraToEntity(Entity &e) {
@@ -62,6 +62,30 @@ namespace CPROGLib{
         }
     }
 
+    void EventLoop::removeEntity(Entity* e) {
+        removed.push_back(e);
+    }
+
+    void EventLoop::clearRemoved(){
+        for (Entity* e : removed) {
+            for (auto i = entities.begin(); i != entities.end(); )
+                if (*i == e) {
+                    i = entities.erase(i);
+                    delete e;
+                }else{
+                    i++;
+                }
+        }
+        removed.clear();
+    }
+
+    void EventLoop::addAdded() {
+        for(Entity* e : added) {
+            entities.push_back(e);
+        }
+        added.clear();
+    }
+
 
     int EventLoop::mainLoop() {
         const int tickInterval = 1000/fps;
@@ -69,6 +93,9 @@ namespace CPROGLib{
         int delay;
         SDL_Event ev;
         while(running){
+            addAdded();
+            clearRemoved();
+
             nextTick = SDL_GetTicks() + tickInterval;
 
             while( SDL_PollEvent( &ev ) != 0 )
@@ -94,12 +121,6 @@ namespace CPROGLib{
                 if(entities[i]->isTracked()){
                     adjustCamera(*entities[i]);
                 }
-               /* for(int k = i+1; k < entities.size();k++){
-                    if(entities[i]->isColliding(entities[k]->getRect())){
-                        entities[i]->collide(*entities[k]);
-                        entities[k]->collide(*entities[i]);
-                    }
-                }*/
             }
 
             window->clear();

@@ -17,7 +17,9 @@ namespace CPROGLib {
             if(frameCount == 0){
                 e.addVel(0,gravity);
             }
+
         }
+
     }
 
     PhysicsObject::~PhysicsObject() {

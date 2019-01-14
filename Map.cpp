@@ -22,16 +22,22 @@ namespace CPROGLib{
 
     }
     //Collides ppc with tiles of a type
-    // returns a list of pairs of collided tiles and the corresponding rectangle from the collider.
-    std::vector<std::pair<Tile*, SDL_Rect>> Map::collidesWithTypePerPixel(PerPixelCollider& ppc, const int type) {
-        std::vector<std::pair<Tile*, SDL_Rect>> tilesRects;
+    // returns a MapCollisionObj represneting the collided tiles and the corresponding rectangle from the collider as well as the "region" collided.
+    MapCollisionObj Map::collidesWithTypePerPixel(PerPixelCollider& ppc, const int type) {
+        MapCollisionObj m;
         for(auto tile : tiles){//TODO:Check bounding box?
-            auto r = ppc.rectCollideWithRects(tile->getRect());
-            if(r.x > 0 && tile->getType() == type){
-                tilesRects.emplace_back(std::make_pair(tile,r));
+            if(ppc.isCollidingBounding(tile->getRect())){
+                auto r = ppc.rectCollideWithRects(tile->getRect());
+                if(r.x >= 0 && tile->getType() == type){
+                    m.tile = tile;
+                    m.collidedRect = r;
+                    m.region = tile->collidesRegion(ppc.getBoundingBox());
+                    return m;
+                }
             }
         }
-        return tilesRects;
+        m.tile = nullptr;
+        return m;
     }
 
     bool Map::collidesWithType(SDL_Rect &r, int type) {

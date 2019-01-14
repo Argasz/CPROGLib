@@ -43,6 +43,10 @@ namespace CPROGLib {
         }
     }
 
+    bool PerPixelCollider::isCollidingBounding(SDL_Rect &r) {
+        return collideRects(r,this->boundingBox);
+    }
+
     bool PerPixelCollider::isColliding(Collider &c) {
         if(collideRects(c.getBoundingBox(), boundingBox)){
             if(typeid(c) == typeid(Collider)){
