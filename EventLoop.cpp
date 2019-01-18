@@ -12,6 +12,26 @@ namespace CPROGLib{
         camera = {0, 0, window->getWidth(), window->getHeight()};
         map = &m;
         physicsObject = nullptr;
+        currentScene = nullptr;
+    }
+    EventLoop::EventLoop(int fps, Scene* s) {
+        this->fps = fps;
+        running = false;
+        camera = {0, 0, window->getWidth(), window->getHeight()};
+        physicsObject = nullptr;
+        currentScene = s;
+    }
+
+    void EventLoop::loadScene(CPROGLib::Scene *s) {
+        map = s->map;
+        bg = s->bg;
+        currentScene = s;
+    }
+
+    void EventLoop::clearEntities() {
+        for(Entity* e : entities){
+            removeEntity(e);
+        }
     }
 
     void EventLoop::readKeyCommands(SDL_Event& ev) {
@@ -107,6 +127,11 @@ namespace CPROGLib{
                 for(auto e : entities){
                     e->listen(ev);
                 }
+                if(currentScene){
+                    for(auto e : currentScene->entities){
+                        e->listen(ev);
+                    }
+                }
 
             }
 
@@ -119,6 +144,11 @@ namespace CPROGLib{
                 }
                 if(entities[i]->isTracked()){
                     adjustCamera(*entities[i]);
+                }
+                if(currentScene){
+                    if(currentScene->entities[i]->isTracked()){
+                        adjustCamera(*currentScene->entities[i]);
+                    }
                 }
             }
 
@@ -136,6 +166,15 @@ namespace CPROGLib{
                 if(debug){
                     SDL_Rect r = {e->getRect().x - camera.x, e->getRect().y - camera.y, e->getRect().w, e->getRect().h};
                     SDL_RenderDrawRect(window->getRenderer(),&r);
+                }
+            }
+            if(currentScene){
+                for(auto e: currentScene->entities){
+                    e->tick();
+                    if(debug){
+                        SDL_Rect r = {e->getRect().x - camera.x, e->getRect().y - camera.y, e->getRect().w, e->getRect().h};
+                        SDL_RenderDrawRect(window->getRenderer(),&r);
+                    }
                 }
             }
             physicsObject->dec();

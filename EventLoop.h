@@ -17,6 +17,7 @@
 #include "DebugInfo.h"
 #include "PhysicsObject.h"
 #include "MemPtrCommand.h"
+#include "Scene.h"
 
 namespace CPROGLib{
     class EventLoop {
@@ -37,11 +38,14 @@ namespace CPROGLib{
         PhysicsObject* physicsObject;
         void clearRemoved();
         void addAdded();
+        Scene* currentScene;
     public:
         EventLoop(int fps, const std::string& bgImgPath, Map& map);
+        EventLoop(int fps, Scene* s);
         ~EventLoop();
         void addEntity(Entity* e);
         void removeEntity(Entity* e);
+        void clearEntities();
         void start();
         void stop();
         void attachCameraToEntity(Entity& ent);
@@ -69,6 +73,7 @@ namespace CPROGLib{
         std::vector<Entity*> getEntities(){
             return entities;
         }
+        void loadScene(Scene* s);
     };
 }
 

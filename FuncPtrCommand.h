@@ -14,7 +14,7 @@ namespace CPROGLib {
     template <typename T>
     class FuncPtrCommand : public KeyCommand{
     public:
-        FuncPtrCommand(SDL_Keycode k, std::function<T>* f);
+        FuncPtrCommand(SDL_Keycode k, std::function<T>* f):KeyCommand(k),f(f){};
         void perform(SDL_Keycode kc){
             if(getKeyCode() == kc){
                 f();
