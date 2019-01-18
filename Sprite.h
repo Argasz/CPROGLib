@@ -16,11 +16,14 @@ namespace CPROGLib{
         std::string imagePath;
         SDL_Texture* texture;
     public:
-        Sprite(const std::string& imagePath);
+        static Sprite* getInstance(const std::string& imagePath){
+            return new Sprite(imagePath);
+        }
         virtual void draw(const SDL_Rect& rect);
-        ~Sprite();
+        virtual ~Sprite();
 
     protected:
+        Sprite(const std::string& imagePath);
         SDL_Texture* getTexture(){
             return texture;
         }

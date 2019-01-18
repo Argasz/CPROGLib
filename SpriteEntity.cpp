@@ -5,17 +5,19 @@
 #include "SpriteEntity.h"
 #include "EventLoop.h"
 #include "PerPixelCollider.h"
+#include "AnimatedSprite.h"
 #include <typeinfo>
 namespace CPROGLib{
+    static const int BOUNDING_BOX = 0, PER_PIXEL = 1;
     SpriteEntity::SpriteEntity(const std::string& imagePath, int x, int y, int w, int h, std::string& id, EventLoop& el, int collType) : Entity(el,id) {
-        sprite = new Sprite(imagePath);
+        sprite = Sprite::getInstance(imagePath);
         rect = {x, y, w, h};
         xvel = 0;
         yvel = 0;
         this->collType = collType;
-        if(collType == 0){
+        if(collType == BOUNDING_BOX){
             c = new Collider(x,y,w,h);
-        }else if(collType == 1){
+        }else if(collType == PER_PIXEL){
             SDL_Surface* tmp = IMG_Load(imagePath.c_str());//TODO: Change?
             c =  new PerPixelCollider(x,y,*tmp);
             SDL_FreeSurface(tmp);
@@ -78,7 +80,7 @@ namespace CPROGLib{
     std::string SpriteEntity::debugText() {
         std::string txt;
         txt.append("id: ");
-        txt.append(id);
+        txt.append(getId());
         txt.append(" x: ");
         txt.append(std::to_string(rect.x));
         txt.append(" y: ");
@@ -104,17 +106,20 @@ namespace CPROGLib{
     }
 
     void SpriteEntity::tick() {
-        Map& m = el->getMap();
-        for(Entity* e: el->getEntities()){
-            if(e != this){
-                if(e->isColliding(*c)){
-                    collide(*e);
+        auto eLoop = getEventLoop();
+        Map& m = eLoop->getMap();
+        for(Entity* e: eLoop->getEntities()){
+            if(auto se = dynamic_cast<SpriteEntity*>(e)){
+                if(se != this){
+                    if(se->isColliding(*c)){
+                        collide(*se);
+                    }
                 }
             }
         }
         move(m.getBounds());
-        el->getPhys().applyPhysics(*this);
-        draw(el->getCamera());
+        eLoop->getPhys().applyPhysics(*this);
+        draw(eLoop->getCamera());
 
     }
 }

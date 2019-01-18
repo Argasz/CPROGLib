@@ -14,9 +14,9 @@ namespace CPROGLib{
         physicsObject = nullptr;
     }
 
-    void EventLoop::readKeyCommands() {
+    void EventLoop::readKeyCommands(SDL_Event& ev) {
         for(auto c : commands){
-            c->perform();
+            c->perform(ev);
         }
     }
 
@@ -103,15 +103,14 @@ namespace CPROGLib{
                 if( ev.type == SDL_QUIT ) {
                     stop();
                 }
-
+                readKeyCommands(ev);
                 for(auto e : entities){
                     e->listen(ev);
                 }
+
             }
 
-            readKeyCommands();
             for(int i = 0; i < entities.size(); i++){
-
                 if(debug){
                     std::string tmp = entities[i]->debugText();
                     debugInfo->addText(tmp);

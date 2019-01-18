@@ -12,10 +12,10 @@ namespace CPROGLib{
         clip = src;
         type = t;
         tex = &tx;
-        top = {rect.x+2,rect.y,rect.w-2,4};
-        btm = {rect.x+2,rect.y + ((rect.h*3)/4),rect.w-2,4};
-        l = {rect.x, rect.y+2,4,rect.h-2};
-        r = {rect.x + ((rect.w*3)/4), rect.y+2,4,rect.h-2};
+        top = {rect.x+2,rect.y,rect.w-2,2};
+        btm = {rect.x+2,rect.y + (rect.w - (rect.w/4)),rect.w-2,2};
+        l = {rect.x, rect.y+2,2,rect.h-2};
+        r = {rect.x + (rect.w - (rect.w/4)), rect.y+2,2,rect.h-2};
     }
 
     void Tile::draw(SDL_Rect &camera) {

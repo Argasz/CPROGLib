@@ -13,30 +13,24 @@
 
 namespace CPROGLib{
     class SpriteEntity : public Entity{
-    private:
-        Sprite* sprite;
-        SDL_Rect rect;
-        int xvel, yvel;
-        int maxVel = 50;
-        std::function<void(Entity& self, Entity& other)> collideFunc = {};
-        bool tracked = false;
-        int collType;
     public:
-        SpriteEntity(const std::string& imagePath, int x, int y, int w, int h, std::string& id, EventLoop& el, int collType); //TODO: Constants
-        void draw(SDL_Rect& camera) override;
+        static SpriteEntity* getInstance(const std::string& imagePath, int x, int y, int w, int h, std::string& id, EventLoop& el, int collType = 0){
+            return new SpriteEntity(imagePath,x,y,w,h,id,el,collType);
+        }
+        virtual void draw(SDL_Rect& camera);
         SDL_Rect& getRect() override;
         void listen(SDL_Event &ev) override;
-        void move(SDL_Rect& bounds) override;
+        virtual void move(SDL_Rect& bounds);
         ~SpriteEntity() override;
-        void addVel(int dx, int dy) override;
+        void addVel(int dx, int dy);
         void setXVel(int dx){
             xvel = dx;
         };
         void setYVel(int dy){
             yvel = dy;
         };
-        bool isColliding(Collider& c) const override;
-        void collide(Entity& e) override{
+        bool isColliding(Collider& c) const;
+        void collide(Entity& e){
             if(collideFunc) {
                 collideFunc(*this, e);
             }
@@ -51,8 +45,8 @@ namespace CPROGLib{
         void trackWithCamera() override{tracked = true;}
         void untrack() override {tracked = false;}
         bool isTracked() override {return tracked;}
-        virtual void tick();
-        std::string debugText();
+        void tick() override;
+        std::string debugText() override;
         int getXVel(){
             return xvel;
         }
@@ -70,6 +64,18 @@ namespace CPROGLib{
         }
 
     protected:
+        Collider* getCollider(){
+            return c;
+        }
+        SpriteEntity(const std::string& imagePath, int x, int y, int w, int h, std::string& id, EventLoop& el, int collType);
+    private:
+        Sprite* sprite;
+        SDL_Rect rect;
+        int xvel, yvel;
+        int maxVel = 50;
+        std::function<void(Entity& self, Entity& other)> collideFunc = {};
+        bool tracked = false;
+        int collType;
         Collider* c;
 
     };

@@ -4,6 +4,8 @@
 
 #ifndef CPROGLIB_MEMPTRCOMMAND_H
 #define CPROGLIB_MEMPTRCOMMAND_H
+
+#include <SDL_keycode.h>
 #include "KeyCommand.h"
 
 namespace CPROGLib { //TODO:FuncPtrCommand
@@ -11,15 +13,18 @@ namespace CPROGLib { //TODO:FuncPtrCommand
     template <typename T>
     class MemPtrCommand : public KeyCommand{
     public:
-        MemPtrCommand(void (T::*mp)(), T &obj){
+        MemPtrCommand(void (T::*mp)(), T &obj, SDL_Keycode k):KeyCommand(k){ //(TODO: Fix
             this->act = mp;
             this->object = &obj;
         }
-        virtual ~MemPtrCommand(){};
-        void perform() override {
-            (object->*act)();
+        ~MemPtrCommand(){};
+        void perform(SDL_Event& ev) override{
+            if(ev.key.repeat == 0){
+                if(getKeyCode() == ev.key.keysym.sym && ev.type == SDL_KEYDOWN){
+                    (object->*act)();
+                }
+            }
         };
-
     private:
         void (T::*act)();
         T *object;

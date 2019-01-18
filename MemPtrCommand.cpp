@@ -3,8 +3,6 @@
 //
 
 #include "MemPtrCommand.h"
-#include "EventLoop.h"
 
 namespace CPROGLib {
-
 }

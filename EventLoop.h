@@ -30,7 +30,7 @@ namespace CPROGLib{
         SDL_Rect camera;
         Background* bg;
         void adjustCamera(Entity& e);
-        void readKeyCommands();
+        void readKeyCommands(SDL_Event& ev);
         Map* map;
         bool debug = false;
         DebugInfo* debugInfo;
@@ -54,8 +54,7 @@ namespace CPROGLib{
         void toggleDebug() {
             debug = !debug;
         };
-        template <typename T>
-        void addKeyCommand(MemPtrCommand<T>& kc){
+        void addKeyCommand(KeyCommand& kc){
             commands.push_back(&kc);
         }
         Map& getMap(){
