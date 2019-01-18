@@ -17,7 +17,7 @@ namespace CPROGLib {
             return new AnimatedSprite(imagePath,freq,frameWidth,frameHeight,rows,cols);
         }
         void draw(const SDL_Rect& rect);
-        ~AnimatedSprite();
+        ~AnimatedSprite() override {};
 
     protected:
         AnimatedSprite(const std::string& imagePath, int freq, int frameWidth,int frameHeight, int rows, int cols);

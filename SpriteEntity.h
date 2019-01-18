@@ -14,6 +14,7 @@
 namespace CPROGLib{
     class SpriteEntity : public Entity{
     public:
+        static const int BOUNDING_BOX = 0, PER_PIXEL = 1;
         static SpriteEntity* getInstance(const std::string& imagePath, int x, int y, int w, int h, std::string& id, EventLoop& el, int collType = 0){
             return new SpriteEntity(imagePath,x,y,w,h,id,el,collType);
         }
@@ -67,7 +68,11 @@ namespace CPROGLib{
         Collider* getCollider(){
             return c;
         }
-        SpriteEntity(const std::string& imagePath, int x, int y, int w, int h, std::string& id, EventLoop& el, int collType);
+        Sprite* getSprite(){
+            return sprite;
+        }
+        SpriteEntity(const std::string& imagePath, int x, int y, int w, int h, std::string& id, EventLoop& el, int collType = 0);
+        SpriteEntity(Sprite* sprite, int x, int y, int w, int h, std::string& id, EventLoop& el);
     private:
         Sprite* sprite;
         SDL_Rect rect;

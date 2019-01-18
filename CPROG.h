@@ -11,6 +11,8 @@
 #include "Tile.h"
 #include "PerPixelCollider.h"
 #include "Background.h"
+#include "AnimatedSprite.h"
+#include "AnimatedSpriteEntity.h"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>

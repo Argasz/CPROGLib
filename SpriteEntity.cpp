@@ -8,7 +8,6 @@
 #include "AnimatedSprite.h"
 #include <typeinfo>
 namespace CPROGLib{
-    static const int BOUNDING_BOX = 0, PER_PIXEL = 1;
     SpriteEntity::SpriteEntity(const std::string& imagePath, int x, int y, int w, int h, std::string& id, EventLoop& el, int collType) : Entity(el,id) {
         sprite = Sprite::getInstance(imagePath);
         rect = {x, y, w, h};
@@ -23,6 +22,17 @@ namespace CPROGLib{
             SDL_FreeSurface(tmp);
         }
     }
+    SpriteEntity::SpriteEntity(CPROGLib::Sprite *sprite, int x, int y, int w, int h, std::string &id,
+                               CPROGLib::EventLoop &el) : Entity(el,id) { //Use for animated sprite in subclass
+        this->sprite = sprite;
+        rect = {x,y,w,h};
+        xvel = 0;
+        yvel = 0;
+        this->collType = 0;
+        c = new Collider(x,y,w,h);
+    }
+
+
 
     void SpriteEntity::listen(SDL_Event &ev) {
     }
