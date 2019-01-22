@@ -6,11 +6,11 @@
 
 namespace CPROGLib{
 
-    void ControlledSpriteEntity::addKeyDownListener(const SDL_Keycode k, const std::function<void(ControlledSpriteEntity*)>& lambda) {
+    void ControlledSpriteEntity::addKeyDownListener(const SDL_Keycode k, const std::function<void(ControlledSpriteEntity*)> lambda) {
         std::pair<Uint32 , std::function<void(ControlledSpriteEntity*)>> p = std::make_pair(k, lambda);
         keyDownListeners.insert(p);
     }
-    void ControlledSpriteEntity::addKeyUpListener(const SDL_Keycode k, const std::function<void(ControlledSpriteEntity*)>& lambda) {
+    void ControlledSpriteEntity::addKeyUpListener(const SDL_Keycode k, const std::function<void(ControlledSpriteEntity*)> lambda) {
         std::pair<Uint32 , std::function<void(ControlledSpriteEntity*)>> p = std::make_pair(k, lambda);
         keyUpListeners.insert(p);
     }

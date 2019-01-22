@@ -12,7 +12,7 @@ namespace CPROGLib {
     class PhysicsObject {
     public:
         PhysicsObject(int gravity, int frameCount);
-        virtual void applyPhysics(SpriteEntity& e);
+        virtual void applyPhysics(SpriteEntity& e,bool grav);
         virtual ~PhysicsObject();
         void setGravityOn(bool onOff){
             gravityOn = onOff;

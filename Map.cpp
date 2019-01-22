@@ -7,18 +7,12 @@
 #include "Map.h"
 
 namespace CPROGLib{
-    Map::Map(std::string& tileSetPath, int w, int h, SDL_Rect& bounds) {
+    Map::Map(std::string& tileSetPath, int w, int h, int tileW, int tileH) {
         tileset = IMG_LoadTexture(window->getRenderer(), tileSetPath.c_str());
         width = w;
         height = h;
-        this->bounds = bounds;
-
-    }
-
-    Map::Map(std::string& tileSetPath, int w, int h) {
-        tileset = IMG_LoadTexture(window->getRenderer(), tileSetPath.c_str());
-        width = w;
-        height = h;
+        this->tileH = tileH;
+        this->tileW = tileW;
 
     }
     //Collides ppc with tiles of a type
@@ -29,14 +23,15 @@ namespace CPROGLib{
             if(ppc.isCollidingBounding(tile->getRect())){
                 auto r = ppc.rectCollideWithRects(tile->getRect());
                 if(r.x >= 0 && tile->getType() == type){
-                    m.tile = tile;
+                    m.tile = tile->getRect();
+                    m.type = tile->getType();
                     m.collidedRect = r;
                     m.region = tile->collidesRegion(ppc.getBoundingBox());
                     return m;
                 }
             }
         }
-        m.tile = nullptr;
+        m.tile = {-1,0,0,0};
         return m;
     }
 
@@ -62,16 +57,16 @@ namespace CPROGLib{
         SDL_DestroyTexture(tileset);
     }
 
-    void Map::loadMap(std::string &path, int mapSize, int tileW, int tileH) {//TODO: DEBUG
+    void Map::loadMap(std::string &path) {
         bounds = {0,0,width*tileW,height*tileH};
         std::ifstream map(path);
         if(!map){
             throw std::runtime_error("Unable to load map file.");
         }
 
-        int x, y = 0;
+        int x, y,i = 0;
 
-        for(int i = 0; i < mapSize; i++){ //Space separated TYPE:OFFSETX:OFFSETY
+        while(!map.eof()){ //Space separated TYPE:OFFSETX:OFFSETY
             x = i%width;
             y = (i/width);
 
@@ -83,7 +78,7 @@ namespace CPROGLib{
             cur = map.get();
             if(cur != ':'){
                 map.close();
-                throw std::runtime_error("Error reading file. Expected :");//TODO:DO ERROR STUFF
+                throw std::runtime_error("Error reading file. Expected :");
             }
             std::string offsetS;
             cur = map.get();
@@ -110,6 +105,7 @@ namespace CPROGLib{
             SDL_Rect src = {offsetx*tileW, offsety*tileH, tileH, tileW};
             Tile* tile = new Tile(dst,typ,*tileset,src);
             tiles.push_back(tile);
+            i++;
 
         }
 

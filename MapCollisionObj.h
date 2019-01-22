@@ -10,8 +10,8 @@
 
 namespace CPROGLib {
     struct MapCollisionObj {
-        Tile* tile;
-        int region;
+        SDL_Rect tile;
+        int region,type;
         SDL_Rect collidedRect;
     };
 }

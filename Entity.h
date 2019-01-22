@@ -28,8 +28,12 @@ class Entity { //TODO: Rewrite, entity has eventloop member, move methods down i
         }
         Entity(const Entity& obj) = delete;
         Entity& operator=(const Entity&) = delete;
+        void setEventLoop(EventLoop* el){
+            this->el = el;
+        };
     protected:
-        Entity(EventLoop& el, std::string& id) {this->id = id; this->el = &el;};
+        Entity(std::string& id) {this->id = id;
+        el = nullptr;};
         EventLoop* getEventLoop(){
             return el;
         };

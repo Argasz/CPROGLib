@@ -6,9 +6,12 @@
 #include "AnimatedSprite.h"
 
 namespace CPROGLib {
-    AnimatedSpriteEntity::AnimatedSpriteEntity(const std::string &imagePath, int x, int y, int w, int h,
-                                               std::string &id, CPROGLib::EventLoop &el, int freq, int frameWidth,int frameHeight, int rows, int cols) :
-                                               SpriteEntity(AnimatedSprite::getInstance(imagePath,freq,frameWidth,frameHeight,rows,cols),x,y,w,h,id,el){
+    AnimatedSpriteEntity::AnimatedSpriteEntity(AnimatedSprite* as, int x, int y, int w, int h,
+                                               std::string &id) :
+                                               SpriteEntity(as,x,y,w,h,id){
+
+
+
     }
 
     void AnimatedSpriteEntity::draw(SDL_Rect &camera) {

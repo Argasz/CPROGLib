@@ -8,7 +8,7 @@
 #include "AnimatedSprite.h"
 #include <typeinfo>
 namespace CPROGLib{
-    SpriteEntity::SpriteEntity(const std::string& imagePath, int x, int y, int w, int h, std::string& id, EventLoop& el, int collType) : Entity(el,id) {
+    SpriteEntity::SpriteEntity(const std::string& imagePath, int x, int y, int w, int h, std::string& id, int collType) : Entity(id) {
         sprite = Sprite::getInstance(imagePath);
         rect = {x, y, w, h};
         xvel = 0;
@@ -22,13 +22,12 @@ namespace CPROGLib{
             SDL_FreeSurface(tmp);
         }
     }
-    SpriteEntity::SpriteEntity(CPROGLib::Sprite *sprite, int x, int y, int w, int h, std::string &id,
-                               CPROGLib::EventLoop &el) : Entity(el,id) { //Use for animated sprite in subclass
+    SpriteEntity::SpriteEntity(Sprite *sprite, int x, int y, int w, int h, std::string &id) : Entity(id) { //Use for animated sprite in subclass
         this->sprite = sprite;
         rect = {x,y,w,h};
         xvel = 0;
         yvel = 0;
-        this->collType = 0;
+        this->collType = BOUNDING_BOX;
         c = new Collider(x,y,w,h);
     }
 
@@ -81,6 +80,7 @@ namespace CPROGLib{
 
     SpriteEntity::~SpriteEntity() {
         delete sprite;
+        delete c;
     }
 
     void SpriteEntity::setCollideFunc(std::function<void(Entity&, Entity&)> f) {
@@ -127,8 +127,17 @@ namespace CPROGLib{
                 }
             }
         }
+        for(Entity* e: eLoop->getSceneEntities()){
+            if(auto se = dynamic_cast<SpriteEntity*>(e)){
+                if(se != this){
+                    if(se->isColliding(*c)){
+                        collide(*se);
+                    }
+                }
+            }
+        }
         move(m.getBounds());
-        eLoop->getPhys().applyPhysics(*this);
+        eLoop->getPhys().applyPhysics(*this,true);
         draw(eLoop->getCamera());
 
     }

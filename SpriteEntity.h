@@ -15,8 +15,8 @@ namespace CPROGLib{
     class SpriteEntity : public Entity{
     public:
         static const int BOUNDING_BOX = 0, PER_PIXEL = 1;
-        static SpriteEntity* getInstance(const std::string& imagePath, int x, int y, int w, int h, std::string& id, EventLoop& el, int collType = 0){
-            return new SpriteEntity(imagePath,x,y,w,h,id,el,collType);
+        static SpriteEntity* getInstance(const std::string& imagePath, int x, int y, int w, int h, std::string& id, int collType = 0){
+            return new SpriteEntity(imagePath,x,y,w,h,id,collType);
         }
         virtual void draw(SDL_Rect& camera);
         SDL_Rect& getRect() override;
@@ -71,14 +71,14 @@ namespace CPROGLib{
         Sprite* getSprite(){
             return sprite;
         }
-        SpriteEntity(const std::string& imagePath, int x, int y, int w, int h, std::string& id, EventLoop& el, int collType = 0);
-        SpriteEntity(Sprite* sprite, int x, int y, int w, int h, std::string& id, EventLoop& el);
+        SpriteEntity(const std::string& imagePath, int x, int y, int w, int h, std::string& id, int collType = 0);
+        SpriteEntity(Sprite* sprite, int x, int y, int w, int h, std::string& id);
     private:
         Sprite* sprite;
         SDL_Rect rect;
         int xvel, yvel;
         int maxVel = 50;
-        std::function<void(Entity& self, Entity& other)> collideFunc = {};
+        std::function<void(Entity& self, Entity& other)> collideFunc = nullptr;
         bool tracked = false;
         int collType;
         Collider* c;

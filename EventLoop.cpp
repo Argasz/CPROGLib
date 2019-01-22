@@ -13,19 +13,28 @@ namespace CPROGLib{
         map = &m;
         physicsObject = nullptr;
         currentScene = nullptr;
+        debug = false;
     }
     EventLoop::EventLoop(int fps, Scene* s) {
+        loadScene(s);
         this->fps = fps;
         running = false;
         camera = {0, 0, window->getWidth(), window->getHeight()};
         physicsObject = nullptr;
-        currentScene = s;
+        debug = false;
     }
 
     void EventLoop::loadScene(CPROGLib::Scene *s) {
+        camera = s->cameraStart;
+        s->resetPos();
         map = s->map;
         bg = s->bg;
         currentScene = s;
+        scene.clear();
+        scene = s->entities;
+        for(auto e : s->entities){
+            e->setEventLoop(this);
+        }
     }
 
     void EventLoop::clearEntities() {
@@ -57,7 +66,8 @@ namespace CPROGLib{
         running = false;
     }
     void EventLoop::addEntity(Entity *e) {
-        added.push_back(e); //TODO:Changes during iteration
+        added.push_back(e);
+        e->setEventLoop(this);
     }
 
     void EventLoop::attachCameraToEntity(Entity &e) {
@@ -68,11 +78,11 @@ namespace CPROGLib{
         SDL_Rect er = e.getRect();
         camera.x = er.x + (er.w/2) - (window->getWidth()/2);
         camera.y = er.y + (er.h/2) - (window->getHeight()/2);
-        if(camera.x > (bg->getWidth()-camera.w)){
-            camera.x = bg->getWidth()-camera.w;
+        if(camera.x > (map->getW()-camera.w)){
+            camera.x = map->getW()-camera.w;
         }
-        if(camera.y > (bg->getHeight() - camera.h)){
-            camera.y = bg->getHeight() - camera.h;
+        if(camera.y > (map->getH() - camera.h)){
+            camera.y = map->getH() - camera.h;
         }
         if(camera.x < 0){
             camera.x = 0;
@@ -95,7 +105,15 @@ namespace CPROGLib{
                 }else{
                     i++;
                 }
+            for (auto i = scene.begin(); i != scene.end(); ){
+                if(*i == e){
+                    i = scene.erase(i);
+                }else{
+                    i++;
+                }
+            }
         }
+
         removed.clear();
     }
 
@@ -112,84 +130,102 @@ namespace CPROGLib{
         Uint32 nextTick;
         int delay;
         SDL_Event ev;
-        while(running){
-            addAdded();
-            clearRemoved();
+        while(running) {
+            if (!paused) {
+                addAdded();
+                clearRemoved();
 
-            nextTick = SDL_GetTicks() + tickInterval;
+                nextTick = SDL_GetTicks() + tickInterval;
 
-            while( SDL_PollEvent( &ev ) != 0 )
-            {
-                if( ev.type == SDL_QUIT ) {
-                    stop();
-                }
-                readKeyCommands(ev);
-                for(auto e : entities){
-                    e->listen(ev);
-                }
-                if(currentScene){
-                    for(auto e : currentScene->entities){
+                while (SDL_PollEvent(&ev) != 0) {
+                    if (ev.type == SDL_QUIT) {
+                        stop();
+                    }
+                    readKeyCommands(ev);
+                    for (auto e : entities) {
                         e->listen(ev);
                     }
+                    if (currentScene) {
+                        for (auto e : scene) {
+                            e->listen(ev);
+                        }
+                    }
+
                 }
 
-            }
-
-            for(int i = 0; i < entities.size(); i++){
-                if(debug){
-                    std::string tmp = entities[i]->debugText();
-                    debugInfo->addText(tmp);
-                    auto s = physicsObject->gfc();
-                    debugInfo->addText(s);
-                }
-                if(entities[i]->isTracked()){
-                    adjustCamera(*entities[i]);
-                }
-                if(currentScene){
-                    if(currentScene->entities[i]->isTracked()){
-                        adjustCamera(*currentScene->entities[i]);
+                for (int i = 0; i < entities.size(); i++) {
+                    if (debug) {
+                        std::string tmp = entities[i]->debugText();
+                        debugInfo->addText(tmp);
+                        auto s = physicsObject->gfc();
+                        debugInfo->addText(s);
+                    }
+                    if (entities[i]->isTracked()) {
+                        adjustCamera(*entities[i]);
                     }
                 }
-            }
 
-            window->clear();
-            bg->draw(camera);
-            map->draw(camera);
-            if(debug){
-                map->drawRects(camera);
-            }
+                if (currentScene) {
+                    for (int i = 0; i < scene.size(); i++) {
+                        if (debug) {
+                            std::string tmp = scene[i]->debugText();
+                            debugInfo->addText(tmp);
+                            auto s = physicsObject->gfc();
+                            debugInfo->addText(s);
+                        }
+                        if (scene[i]->isTracked()) {
+                            adjustCamera(*scene[i]);
+                        }
 
-
-
-            for(auto e: entities){
-                e->tick();
-                if(debug){
-                    SDL_Rect r = {e->getRect().x - camera.x, e->getRect().y - camera.y, e->getRect().w, e->getRect().h};
-                    SDL_RenderDrawRect(window->getRenderer(),&r);
+                    }
                 }
-            }
-            if(currentScene){
-                for(auto e: currentScene->entities){
+
+                window->clear();
+                bg->draw(camera);
+                map->draw(camera);
+                if (debug) {
+                    map->drawRects(camera);
+                }
+
+
+                for (auto e: entities) {
                     e->tick();
-                    if(debug){
-                        SDL_Rect r = {e->getRect().x - camera.x, e->getRect().y - camera.y, e->getRect().w, e->getRect().h};
-                        SDL_RenderDrawRect(window->getRenderer(),&r);
+                    if (debug) {
+                        SDL_Rect r = {e->getRect().x - camera.x, e->getRect().y - camera.y, e->getRect().w,
+                                      e->getRect().h};
+                        SDL_RenderDrawRect(window->getRenderer(), &r);
+                    }
+                }
+                if (currentScene) {
+                    for (auto e: scene) {
+                        e->tick();
+                        if (debug) {
+                            SDL_Rect r = {e->getRect().x - camera.x, e->getRect().y - camera.y, e->getRect().w,
+                                          e->getRect().h};
+                            SDL_RenderDrawRect(window->getRenderer(), &r);
+                        }
+                    }
+                }
+                physicsObject->dec();
+
+                if (debug) {
+                    debugInfo->print();
+                }
+
+                window->render();
+                delay = nextTick - SDL_GetTicks();
+                if (delay > 0) {
+                    SDL_Delay(delay);
+                }
+
+
+            }else{
+                while (SDL_PollEvent(&ev) != 0) {
+                    if (ev.type == SDL_QUIT) {
+                        stop();
                     }
                 }
             }
-            physicsObject->dec();
-
-            if(debug){
-                debugInfo->print();
-            }
-
-            window->render();
-            delay = nextTick - SDL_GetTicks();
-            if(delay > 0){
-                SDL_Delay(delay);
-            }
-
-
         }
 
     }

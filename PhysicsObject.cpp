@@ -12,8 +12,8 @@ namespace CPROGLib {
         gravityOn = true;
     }
 
-    void PhysicsObject::applyPhysics(SpriteEntity& e) {
-        if(gravityOn){//TODO:Move to function
+    void PhysicsObject::applyPhysics(SpriteEntity& e, bool grav) {
+        if(grav){//TODO:Move to function
             if(frameCount == 0){
                 e.addVel(0,gravity);
             }

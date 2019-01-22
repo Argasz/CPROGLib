@@ -24,7 +24,7 @@ namespace CPROGLib{
     private:
         SDL_Event event;
         int fps;
-        std::vector<Entity*> entities,added,removed;
+        std::vector<Entity*> entities,added,removed,scene;
         std::vector<KeyCommand*> commands;
         bool running;
         int mainLoop();
@@ -39,6 +39,7 @@ namespace CPROGLib{
         void clearRemoved();
         void addAdded();
         Scene* currentScene;
+        bool paused = false;
     public:
         EventLoop(int fps, const std::string& bgImgPath, Map& map);
         EventLoop(int fps, Scene* s);
@@ -48,6 +49,8 @@ namespace CPROGLib{
         void clearEntities();
         void start();
         void stop();
+        void pause(){ paused = true;};
+        void unpause(){paused = false;};
         void attachCameraToEntity(Entity& ent);
         void addDebugInfo(DebugInfo& debugInfo){
             this->debugInfo = &debugInfo;
@@ -72,6 +75,9 @@ namespace CPROGLib{
         }
         std::vector<Entity*> getEntities(){
             return entities;
+        }
+        std::vector<Entity*> getSceneEntities(){
+            return currentScene->entities;
         }
         void loadScene(Scene* s);
     };

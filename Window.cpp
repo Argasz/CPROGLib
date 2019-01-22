@@ -40,6 +40,7 @@ namespace CPROGLib{
 
     void Window::close(){
         SDL_DestroyWindow(win);
+        SDL_DestroyRenderer(rend);
     }
 
     void Window::render(){
