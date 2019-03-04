@@ -10,7 +10,7 @@ namespace CPROGLib{
         SDL_QueryTexture(texture, NULL, NULL, &width, &height);
     }
 
-    void Background::draw(SDL_Rect &camera) {
+    void Background::draw(SDL_Rect &camera) { //Background will loop horizontally
         SDL_Renderer* rend = window->getRenderer();
         SDL_Rect rect = {0, 0, window->getWidth(), window->getHeight()};
         int xw = camera.x+camera.w;

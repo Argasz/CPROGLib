@@ -31,7 +31,7 @@ namespace CPROGLib{
             this->bounds = bounds;
         }
         int getW() const { return width * tileW;}
-        int getH() const {return height * tileH;}
+        int getH() const { return height * tileH;}
     private:
         std::vector<Tile*> tiles;
         SDL_Texture* tileset;

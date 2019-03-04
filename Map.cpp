@@ -13,13 +13,14 @@ namespace CPROGLib{
         height = h;
         this->tileH = tileH;
         this->tileW = tileW;
+        bounds = {0,0,width*tileW,height*tileH};
 
     }
     //Collides ppc with tiles of a type
-    // returns a MapCollisionObj represneting the collided tiles and the corresponding rectangle from the collider as well as the "region" collided.
+    // returns a MapCollisionObj representing the collided tiles and the corresponding rectangle from the collider as well as the "region" collided.
     MapCollisionObj Map::collidesWithTypePerPixel(PerPixelCollider& ppc, const int type) {
         MapCollisionObj m;
-        for(auto tile : tiles){//TODO:Check bounding box?
+        for(auto tile : tiles){
             if(ppc.isCollidingBounding(tile->getRect())){
                 auto r = ppc.rectCollideWithRects(tile->getRect());
                 if(r.x >= 0 && tile->getType() == type){
@@ -58,7 +59,6 @@ namespace CPROGLib{
     }
 
     void Map::loadMap(std::string &path) {
-        bounds = {0,0,width*tileW,height*tileH};
         std::ifstream map(path);
         if(!map){
             throw std::runtime_error("Unable to load map file.");

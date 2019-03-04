@@ -26,15 +26,13 @@ namespace CPROGLib{
 
     void EventLoop::loadScene(CPROGLib::Scene *s) {
         camera = s->cameraStart;
-        s->resetPos();
         map = s->map;
         bg = s->bg;
         currentScene = s;
-        scene.clear();
-        scene = s->entities;
-        for(auto e : s->entities){
+        for(auto e : currentScene->entities){
             e->setEventLoop(this);
         }
+        s->resetPos();
     }
 
     void EventLoop::clearEntities() {
@@ -78,10 +76,10 @@ namespace CPROGLib{
         SDL_Rect er = e.getRect();
         camera.x = er.x + (er.w/2) - (window->getWidth()/2);
         camera.y = er.y + (er.h/2) - (window->getHeight()/2);
-        if(camera.x > (map->getW()-camera.w)){
-            camera.x = map->getW()-camera.w;
+        if(camera.x + camera.w > (map->getW())){
+            camera.x = map->getW() - camera.w;
         }
-        if(camera.y > (map->getH() - camera.h)){
+        if(camera.y + camera.h > (map->getH())){
             camera.y = map->getH() - camera.h;
         }
         if(camera.x < 0){
@@ -96,25 +94,17 @@ namespace CPROGLib{
         removed.push_back(e);
     }
 
-    void EventLoop::clearRemoved(){
-        for (Entity* e : removed) {
-            for (auto i = entities.begin(); i != entities.end(); )
+    void EventLoop::clearRemoved() {
+        for (Entity *e : removed) {
+            for (auto i = entities.begin(); i != entities.end();)
                 if (*i == e) {
                     i = entities.erase(i);
                     delete e;
-                }else{
+                } else {
                     i++;
                 }
-            for (auto i = scene.begin(); i != scene.end(); ){
-                if(*i == e){
-                    i = scene.erase(i);
-                }else{
-                    i++;
-                }
-            }
+            removed.clear();
         }
-
-        removed.clear();
     }
 
     void EventLoop::addAdded() {
@@ -146,7 +136,7 @@ namespace CPROGLib{
                         e->listen(ev);
                     }
                     if (currentScene) {
-                        for (auto e : scene) {
+                        for (auto e : currentScene->entities) {
                             e->listen(ev);
                         }
                     }
@@ -166,15 +156,15 @@ namespace CPROGLib{
                 }
 
                 if (currentScene) {
-                    for (int i = 0; i < scene.size(); i++) {
+                    for (int i = 0; i < currentScene->entities.size(); i++) {
                         if (debug) {
-                            std::string tmp = scene[i]->debugText();
+                            std::string tmp = currentScene->entities[i]->debugText();
                             debugInfo->addText(tmp);
                             auto s = physicsObject->gfc();
                             debugInfo->addText(s);
                         }
-                        if (scene[i]->isTracked()) {
-                            adjustCamera(*scene[i]);
+                        if (currentScene->entities[i]->isTracked()) {
+                            adjustCamera(*currentScene->entities[i]);
                         }
 
                     }
@@ -197,7 +187,7 @@ namespace CPROGLib{
                     }
                 }
                 if (currentScene) {
-                    for (auto e: scene) {
+                    for (auto e: currentScene->entities) {
                         e->tick();
                         if (debug) {
                             SDL_Rect r = {e->getRect().x - camera.x, e->getRect().y - camera.y, e->getRect().w,

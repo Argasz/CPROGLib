@@ -24,7 +24,7 @@ namespace CPROGLib{
     private:
         SDL_Event event;
         int fps;
-        std::vector<Entity*> entities,added,removed,scene;
+        std::vector<Entity*> entities,added,removed;
         std::vector<KeyCommand*> commands;
         bool running;
         int mainLoop();
