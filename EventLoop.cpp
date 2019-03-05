@@ -28,8 +28,15 @@ namespace CPROGLib{
         camera = s->cameraStart;
         map = s->map;
         bg = s->bg;
+        if(currentScene){
+            for(auto e: currentScene->entities){
+                removeEntity(e);
+                clearRemoved();
+            }
+        }
         currentScene = s;
         for(auto e : currentScene->entities){
+            addEntity(e);
             e->setEventLoop(this);
         }
         s->resetPos();
@@ -94,12 +101,16 @@ namespace CPROGLib{
         removed.push_back(e);
     }
 
+
+
     void EventLoop::clearRemoved() {
         for (Entity *e : removed) {
             for (auto i = entities.begin(); i != entities.end();)
                 if (*i == e) {
                     i = entities.erase(i);
-                    delete e;
+                    if(!currentScene->hasEntity(e)) {
+                        delete e;
+                    }
                 } else {
                     i++;
                 }
@@ -135,11 +146,12 @@ namespace CPROGLib{
                     for (auto e : entities) {
                         e->listen(ev);
                     }
+                    /*
                     if (currentScene) {
                         for (auto e : currentScene->entities) {
                             e->listen(ev);
                         }
-                    }
+                    }*/
 
                 }
 
@@ -155,7 +167,7 @@ namespace CPROGLib{
                     }
                 }
 
-                if (currentScene) {
+                /*if (currentScene) {
                     for (int i = 0; i < currentScene->entities.size(); i++) {
                         if (debug) {
                             std::string tmp = currentScene->entities[i]->debugText();
@@ -168,7 +180,7 @@ namespace CPROGLib{
                         }
 
                     }
-                }
+                }*/
 
                 window->clear();
                 bg->draw(camera);
@@ -186,7 +198,7 @@ namespace CPROGLib{
                         SDL_RenderDrawRect(window->getRenderer(), &r);
                     }
                 }
-                if (currentScene) {
+                /*if (currentScene) {
                     for (auto e: currentScene->entities) {
                         e->tick();
                         if (debug) {
@@ -195,7 +207,7 @@ namespace CPROGLib{
                             SDL_RenderDrawRect(window->getRenderer(), &r);
                         }
                     }
-                }
+                }*/
                 physicsObject->dec();
 
                 if (debug) {

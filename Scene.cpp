@@ -23,4 +23,14 @@ namespace CPROGLib {
             }
         }
     }
+
+    bool Scene::hasEntity(Entity* e){
+        for(auto en : entities){
+            if(en == e){
+                return true;
+            }
+        }
+        return false;
+
+    }
 }

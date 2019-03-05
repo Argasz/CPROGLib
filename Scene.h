@@ -25,6 +25,7 @@ namespace CPROGLib {
             }
         }
         void resetPos();
+        bool hasEntity(Entity* e);
         Scene(const Scene&) = delete;
         Scene& operator=(const Scene&) = delete;
         ~Scene();
