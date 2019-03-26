@@ -167,20 +167,6 @@ namespace CPROGLib{
                     }
                 }
 
-                /*if (currentScene) {
-                    for (int i = 0; i < currentScene->entities.size(); i++) {
-                        if (debug) {
-                            std::string tmp = currentScene->entities[i]->debugText();
-                            debugInfo->addText(tmp);
-                            auto s = physicsObject->gfc();
-                            debugInfo->addText(s);
-                        }
-                        if (currentScene->entities[i]->isTracked()) {
-                            adjustCamera(*currentScene->entities[i]);
-                        }
-
-                    }
-                }*/
 
                 window->clear();
                 bg->draw(camera);
@@ -198,16 +184,6 @@ namespace CPROGLib{
                         SDL_RenderDrawRect(window->getRenderer(), &r);
                     }
                 }
-                /*if (currentScene) {
-                    for (auto e: currentScene->entities) {
-                        e->tick();
-                        if (debug) {
-                            SDL_Rect r = {e->getRect().x - camera.x, e->getRect().y - camera.y, e->getRect().w,
-                                          e->getRect().h};
-                            SDL_RenderDrawRect(window->getRenderer(), &r);
-                        }
-                    }
-                }*/
                 physicsObject->dec();
 
                 if (debug) {

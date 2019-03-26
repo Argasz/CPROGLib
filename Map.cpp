@@ -91,7 +91,7 @@ namespace CPROGLib{
 
             if(cur != ':'){
                 map.close();
-                throw std::runtime_error("Error reading file. Expected :");//TODO:DO ERROR STUFF
+                throw std::runtime_error("Error reading file. Expected :");
             }
             offsetS.clear();
             cur = map.get();

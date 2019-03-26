@@ -127,7 +127,7 @@ namespace CPROGLib{
                 }
             }
         }
-        for(Entity* e: eLoop->getSceneEntities()){
+        /*for(Entity* e: eLoop->getSceneEntities()){
             if(auto se = dynamic_cast<SpriteEntity*>(e)){
                 if(se != this){
                     if(se->isColliding(*c)){
@@ -135,7 +135,7 @@ namespace CPROGLib{
                     }
                 }
             }
-        }
+        }*/
         move(m.getBounds());
         eLoop->getPhys().applyPhysics(*this,true);
         draw(eLoop->getCamera());
