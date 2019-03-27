@@ -17,7 +17,7 @@ namespace CPROGLib{
         if(collType == BOUNDING_BOX){
             c = new Collider(x,y,w,h);
         }else if(collType == PER_PIXEL){
-            SDL_Surface* tmp = IMG_Load(imagePath.c_str());//TODO: Change?
+            SDL_Surface* tmp = IMG_Load(imagePath.c_str());
             c =  new PerPixelCollider(x,y,*tmp);
             SDL_FreeSurface(tmp);
         }

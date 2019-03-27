@@ -55,6 +55,7 @@ namespace CPROGLib{
         for(auto t : tiles){
             delete t;
         }
+        tiles.clear();
         SDL_DestroyTexture(tileset);
     }
 

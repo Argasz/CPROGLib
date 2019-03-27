@@ -16,7 +16,7 @@ namespace CPROGLib {
         SDL_LockSurface(&img);
         bool run = false;
         int x, y, w ,h;
-        for(int i = 0; i <= pixelCount; i++){
+        for(int i = 0; i < pixelCount; i++){
             Uint32 tmp = pixels[i] & img.format->Amask;
             Uint8 alpha;
             tmp = tmp >> img.format->Ashift;

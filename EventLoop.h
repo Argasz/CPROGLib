@@ -41,7 +41,7 @@ namespace CPROGLib{
         Scene* currentScene;
         bool paused = false;
     public:
-        EventLoop(int fps, const std::string& bgImgPath, Map& map);
+        EventLoop(int fps, const std::string& bgImgPath, Map* map);
         EventLoop(int fps, Scene* s);
         ~EventLoop();
         void addEntity(Entity* e);

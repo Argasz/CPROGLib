@@ -5,12 +5,12 @@
 #include "EventLoop.h"
 
 namespace CPROGLib{
-    EventLoop::EventLoop(int fps, const std::string& bgImgPath, Map& m){
+    EventLoop::EventLoop(int fps, const std::string& bgImgPath, Map* m){
         bg = new Background(bgImgPath);
         this->fps = fps;
         running = false;
         camera = {0, 0, window->getWidth(), window->getHeight()};
-        map = &m;
+        map = m;
         physicsObject = nullptr;
         currentScene = nullptr;
         debug = false;
@@ -59,7 +59,8 @@ namespace CPROGLib{
         for(auto e : entities){
             delete e;
         }
-        entities.clear();
+        delete bg;
+        delete map;
     }
 
     void EventLoop::start() {
@@ -69,6 +70,9 @@ namespace CPROGLib{
 
     void EventLoop::stop(){
         running = false;
+        SDL_Quit();
+        IMG_Quit();
+        TTF_Quit();
     }
     void EventLoop::addEntity(Entity *e) {
         added.push_back(e);

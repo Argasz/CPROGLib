@@ -8,12 +8,12 @@
 #include <SDL_keycode.h>
 #include "KeyCommand.h"
 
-namespace CPROGLib { //TODO:FuncPtrCommand
+namespace CPROGLib {
     class EventLoop;
     template <typename T>
     class MemPtrCommand : public KeyCommand{
     public:
-        MemPtrCommand(void (T::*mp)(), T &obj, SDL_Keycode k):KeyCommand(k){ //(TODO: Fix
+        MemPtrCommand(void (T::*mp)(), T &obj, SDL_Keycode k):KeyCommand(k){
             this->act = mp;
             this->object = &obj;
         }
