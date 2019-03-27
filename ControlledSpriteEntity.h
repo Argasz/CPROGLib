@@ -23,8 +23,7 @@ namespace CPROGLib{
         void addKeyDownListener(SDL_Keycode k, const std::function<void(ControlledSpriteEntity*)> lambda);
         void addKeyUpListener(SDL_Keycode k, const std::function<void(ControlledSpriteEntity*)> lambda);
         void listen(SDL_Event &e);
-        ~ControlledSpriteEntity(){
-        };
+        ~ControlledSpriteEntity() = default;
     protected:
         ControlledSpriteEntity(const std::string& imagePath, int x, int y, int w, int h, std::string& id, int collType = 0) :SpriteEntity(imagePath, x, y, w, h, id, collType){};
 

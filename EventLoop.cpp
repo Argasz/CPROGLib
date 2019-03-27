@@ -69,10 +69,10 @@ namespace CPROGLib{
     }
 
     void EventLoop::stop(){
-        running = false;
         SDL_Quit();
         IMG_Quit();
         TTF_Quit();
+        running = false;
     }
     void EventLoop::addEntity(Entity *e) {
         added.push_back(e);
